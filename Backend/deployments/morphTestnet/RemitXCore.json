@@ -1,0 +1,1782 @@
+{
+  "address": "0x24D11988d717C0B24afD36eaC4939cB0b2b980E7",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_ccipRouter",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_linkToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "AmountAboveMaximum",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "AmountBelowMinimum",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ChainNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "DirectTransferFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "EnforcedPause",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ExpectedPause",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FeeTooHigh",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InsufficientCCIPFee",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InsufficientContractBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidAmount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidPriceData",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidRecipient",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MessageAlreadyProcessed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OnlyCreatorCanDelete",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ReentrancyGuardReentrantCall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RemittanceAlreadyCompleted",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RemittanceAlreadyDeleted",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "RemittanceNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "SafeERC20FailedOperation",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "SlippageTooHigh",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TokenNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TransferFailed",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "messageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        }
+      ],
+      "name": "CrossChainRemittanceReceived",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "messageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint64",
+          "name": "destinationChain",
+          "type": "uint64"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        }
+      ],
+      "name": "CrossChainRemittanceSent",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "oldFee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "newFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "FeeUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Paused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isCrossChain",
+          "type": "bool"
+        }
+      ],
+      "name": "RemittanceCompleted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sourceToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "destinationChain",
+          "type": "uint64"
+        }
+      ],
+      "name": "RemittanceCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "refundedAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sourceToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "refundedETH",
+          "type": "uint256"
+        }
+      ],
+      "name": "RemittanceDeleted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "tokenIn",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "tokenOut",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountIn",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountOut",
+          "type": "uint256"
+        }
+      ],
+      "name": "TokenSwapped",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Unpaused",
+      "type": "event"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "inputs": [],
+      "name": "BASIS_POINTS",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_FEE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "chainSelector",
+          "type": "uint64"
+        }
+      ],
+      "name": "addSupportedChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "priceFeed",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "addSupportedToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "messageId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "sourceChainSelector",
+              "type": "uint64"
+            },
+            {
+              "internalType": "bytes",
+              "name": "sender",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "token",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct MockCCIPRouter.EVMTokenAmount[]",
+              "name": "tokenAmounts",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct MockCCIPRouter.Any2EVMMessage",
+          "name": "message",
+          "type": "tuple"
+        }
+      ],
+      "name": "ccipReceive",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ccipRouter",
+      "outputs": [
+        {
+          "internalType": "contract MockCCIPRouter",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "sourceToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "destinationChain",
+          "type": "uint64"
+        }
+      ],
+      "name": "createRemittance",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "deleteRemittance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "fundContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getContractTokenBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "tokenA",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "tokenB",
+          "type": "address"
+        }
+      ],
+      "name": "getExchangeRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "destinationChainSelector",
+          "type": "uint64"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "remittanceId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRemittance",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "recipient",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "sourceToken",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "targetToken",
+              "type": "address"
+            },
+            {
+              "internalType": "uint64",
+              "name": "destinationChain",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "completed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "deleted",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "exchangeRate",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "ccipFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "isCrossChain",
+              "type": "bool"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "ccipMessageId",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct RemitXCore.Remittance",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getRemittanceCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getRemittancesByUser",
+      "outputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserActiveRemittances",
+      "outputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserReceivedRemittances",
+      "outputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserRemittances",
+      "outputs": [
+        {
+          "internalType": "bytes32[]",
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "linkToken",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "paused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "processedMessages",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "remittanceFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "remittanceIds",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "remittances",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "sourceToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "targetToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint64",
+          "name": "destinationChain",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "completed",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "deleted",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "exchangeRate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "ccipFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isCrossChain",
+          "type": "bool"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "ccipMessageId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "chainSelector",
+          "type": "uint64"
+        }
+      ],
+      "name": "removeSupportedChain",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "removeSupportedToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setRemittanceFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "name": "supportedChains",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "supportedTokens",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isSupported",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "priceFeed",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "tokenIn",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "tokenOut",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minAmountOut",
+          "type": "uint256"
+        }
+      ],
+      "name": "swapTokens",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "unpause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userRemittances",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawETHFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0x8c9ac5e7fb2d5f22709a65bca894cc6876ff0346cfe32081915f8a537b69c9ba",
+  "receipt": {
+    "to": null,
+    "from": "0xbc3683737f55f9C6E37cD74d04F345c586C5a3aE",
+    "contractAddress": "0x24D11988d717C0B24afD36eaC4939cB0b2b980E7",
+    "transactionIndex": 0,
+    "gasUsed": "3058512",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000800000000000400000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000001000000000000000000000000000002000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xcfc8b16a716a2fbf18e77f40d6606df435fb8578f40803ae64c8d579772afe93",
+    "transactionHash": "0x8c9ac5e7fb2d5f22709a65bca894cc6876ff0346cfe32081915f8a537b69c9ba",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 19006902,
+        "transactionHash": "0x8c9ac5e7fb2d5f22709a65bca894cc6876ff0346cfe32081915f8a537b69c9ba",
+        "address": "0x24D11988d717C0B24afD36eaC4939cB0b2b980E7",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000bc3683737f55f9c6e37cd74d04f345c586c5a3ae"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0xcfc8b16a716a2fbf18e77f40d6606df435fb8578f40803ae64c8d579772afe93"
+      }
+    ],
+    "blockNumber": 19006902,
+    "cumulativeGasUsed": "3058512",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x1B5E93339955383d258aC5881F71AfF837A5933f",
+    "0x9b14B28f6Ce775bD5a55d8858D51D8627747D0e2",
+    "0xbc3683737f55f9C6E37cD74d04F345c586C5a3aE"
+  ],
+  "numDeployments": 2,
+  "solcInputHash": "5a88b122744be0410a3fbcf117988cb8",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_ccipRouter\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_linkToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initialOwner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"AmountAboveMaximum\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"AmountBelowMinimum\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ChainNotSupported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"DirectTransferFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"EnforcedPause\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ExpectedPause\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"FeeTooHigh\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientCCIPFee\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientContractBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAmount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidPriceData\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidRecipient\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"MessageAlreadyProcessed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"OnlyCreatorCanDelete\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ReentrancyGuardReentrantCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"RemittanceAlreadyCompleted\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"RemittanceAlreadyDeleted\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"RemittanceNotFound\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"SafeERC20FailedOperation\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"SlippageTooHigh\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"TokenNotSupported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"TransferFailed\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"messageId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"}],\"name\":\"CrossChainRemittanceReceived\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"messageId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"destinationChain\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"}],\"name\":\"CrossChainRemittanceSent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"oldFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFee\",\"type\":\"uint256\"}],\"name\":\"FeeUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isCrossChain\",\"type\":\"bool\"}],\"name\":\"RemittanceCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sourceToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"destinationChain\",\"type\":\"uint64\"}],\"name\":\"RemittanceCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"refundedAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sourceToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"refundedETH\",\"type\":\"uint256\"}],\"name\":\"RemittanceDeleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amountIn\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amountOut\",\"type\":\"uint256\"}],\"name\":\"TokenSwapped\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"BASIS_POINTS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MAX_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"chainSelector\",\"type\":\"uint64\"}],\"name\":\"addSupportedChain\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"priceFeed\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"minAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"maxAmount\",\"type\":\"uint256\"}],\"name\":\"addSupportedToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"messageId\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"sourceChainSelector\",\"type\":\"uint64\"},{\"internalType\":\"bytes\",\"name\":\"sender\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"internalType\":\"struct MockCCIPRouter.EVMTokenAmount[]\",\"name\":\"tokenAmounts\",\"type\":\"tuple[]\"}],\"internalType\":\"struct MockCCIPRouter.Any2EVMMessage\",\"name\":\"message\",\"type\":\"tuple\"}],\"name\":\"ccipReceive\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"ccipRouter\",\"outputs\":[{\"internalType\":\"contract MockCCIPRouter\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sourceToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"destinationChain\",\"type\":\"uint64\"}],\"name\":\"createRemittance\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"}],\"name\":\"deleteRemittance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"fundContract\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getContractTokenBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenA\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenB\",\"type\":\"address\"}],\"name\":\"getExchangeRate\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"destinationChainSelector\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"getFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"remittanceId\",\"type\":\"bytes32\"}],\"name\":\"getRemittance\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sourceToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"destinationChain\",\"type\":\"uint64\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"completed\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"deleted\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"exchangeRate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ccipFee\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isCrossChain\",\"type\":\"bool\"},{\"internalType\":\"bytes32\",\"name\":\"ccipMessageId\",\"type\":\"bytes32\"}],\"internalType\":\"struct RemitXCore.Remittance\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRemittanceCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getRemittancesByUser\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUserActiveRemittances\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUserReceivedRemittances\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUserRemittances\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"linkToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"processedMessages\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"remittanceFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"remittanceIds\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"remittances\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"sourceToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"targetToken\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"destinationChain\",\"type\":\"uint64\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"completed\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"deleted\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"exchangeRate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"ccipFee\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isCrossChain\",\"type\":\"bool\"},{\"internalType\":\"bytes32\",\"name\":\"ccipMessageId\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"chainSelector\",\"type\":\"uint64\"}],\"name\":\"removeSupportedChain\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"removeSupportedToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newFee\",\"type\":\"uint256\"}],\"name\":\"setRemittanceFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"name\":\"supportedChains\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"supportedTokens\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"isSupported\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"priceFeed\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"minAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"maxAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amountIn\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"minAmountOut\",\"type\":\"uint256\"}],\"name\":\"swapTokens\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"userRemittances\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawETHFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"details\":\"Core contract for RemitX stablecoin-based remittance system with direct transfers WARNING: This uses mock CCIP contracts - Morph testnet does not have official Chainlink CCIP support\",\"errors\":{\"EnforcedPause()\":[{\"details\":\"The operation failed because the contract is paused.\"}],\"ExpectedPause()\":[{\"details\":\"The operation failed because the contract is not paused.\"}],\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}],\"ReentrancyGuardReentrantCall()\":[{\"details\":\"Unauthorized reentrant call.\"}],\"SafeERC20FailedOperation(address)\":[{\"details\":\"An operation with an ERC-20 token failed.\"}]},\"events\":{\"Paused(address)\":{\"details\":\"Emitted when the pause is triggered by `account`.\"},\"Unpaused(address)\":{\"details\":\"Emitted when the pause is lifted by `account`.\"}},\"kind\":\"dev\",\"methods\":{\"createRemittance(address,uint256,address,address,uint64)\":{\"params\":{\"amount\":\"The amount to send\",\"destinationChain\":\"The destination chain selector\",\"recipient\":\"The recipient address\",\"sourceToken\":\"The source token address\",\"targetToken\":\"The target token address\"}},\"deleteRemittance(bytes32)\":{\"params\":{\"remittanceId\":\"The remittance ID to delete\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"paused()\":{\"details\":\"Returns true if the contract is paused, and false otherwise.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"title\":\"RemitXCore\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"ccipReceive((bytes32,uint64,bytes,bytes,(address,uint256)[]))\":{\"notice\":\"FIXED: CCIP receive implementation with onlyRouter modifier\"},\"createRemittance(address,uint256,address,address,uint64)\":{\"notice\":\"COMPLETELY REWRITTEN: Creates remittance with immediate direct transfer\"},\"deleteRemittance(bytes32)\":{\"notice\":\"ENHANCED: Delete remittance - now only for failed transfers with full refund\"},\"fundContract(address,uint256)\":{\"notice\":\"NEW: Emergency function to fund contract with tokens for direct transfers\"},\"getContractTokenBalance(address)\":{\"notice\":\"NEW: Check contract token balance for liquidity\"},\"getExchangeRate(address,address)\":{\"notice\":\"PRESERVED: Exchange rate calculation (unchanged)\"},\"getFee(uint64,address,uint256)\":{\"notice\":\"ENHANCED: Calculate CCIP fee with token transfer support\"},\"getUserActiveRemittances(address)\":{\"notice\":\"UPDATED: Get user's active remittances (only non-deleted, since all are completed)\"},\"getUserReceivedRemittances(address)\":{\"notice\":\"NEW: Get remittances received by user (for \\\"Received\\\" tab)\"},\"swapTokens(address,address,uint256,uint256)\":{\"notice\":\"PRESERVED: Token swapping functionality (unchanged)\"}},\"notice\":\"Handles cross-border remittances with immediate token delivery using CCIP\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/RemitXCore.sol\":\"RemitXCore\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC1363.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (interfaces/IERC1363.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"./IERC20.sol\\\";\\nimport {IERC165} from \\\"./IERC165.sol\\\";\\n\\n/**\\n * @title IERC1363\\n * @dev Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].\\n *\\n * Defines an extension interface for ERC-20 tokens that supports executing code on a recipient contract\\n * after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.\\n */\\ninterface IERC1363 is IERC20, IERC165 {\\n    /*\\n     * Note: the ERC-165 identifier for this interface is 0xb0202a11.\\n     * 0xb0202a11 ===\\n     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^\\n     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)')) ^\\n     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^\\n     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))\\n     */\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferAndCall(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @param data Additional data with no specified format, sent in call to `to`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param from The address which you want to send tokens from.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param from The address which you want to send tokens from.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @param data Additional data with no specified format, sent in call to `to`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`.\\n     * @param spender The address which will spend the funds.\\n     * @param value The amount of tokens to be spent.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function approveAndCall(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`.\\n     * @param spender The address which will spend the funds.\\n     * @param value The amount of tokens to be spent.\\n     * @param data Additional data with no specified format, sent in call to `spender`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);\\n}\\n\",\"keccak256\":\"0x9b6b3e7803bc5f2f8cd7ad57db8ac1def61a9930a5a3107df4882e028a9605d7\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (interfaces/IERC165.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC165} from \\\"../utils/introspection/IERC165.sol\\\";\\n\",\"keccak256\":\"0xde7e9fd9aee8d4f40772f96bb3b58836cbc6dfc0227014a061947f8821ea9724\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (interfaces/IERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"../token/ERC20/IERC20.sol\\\";\\n\",\"keccak256\":\"0xce41876e78d1badc0512229b4d14e4daf83bc1003d7f83978d18e0e56f965b9c\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Interface of the ERC-20 standard as defined in the ERC.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the value of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the value of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the\\n     * allowance mechanism. `value` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 value) external returns (bool);\\n}\\n\",\"keccak256\":\"0xe06a3f08a987af6ad2e1c1e774405d4fe08f1694b67517438b467cecf0da0ef7\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.3.0) (token/ERC20/utils/SafeERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"../IERC20.sol\\\";\\nimport {IERC1363} from \\\"../../../interfaces/IERC1363.sol\\\";\\n\\n/**\\n * @title SafeERC20\\n * @dev Wrappers around ERC-20 operations that throw on failure (when the token\\n * contract returns false). Tokens that return no value (and instead revert or\\n * throw on failure) are also supported, non-reverting calls are assumed to be\\n * successful.\\n * To use this library you can add a `using SafeERC20 for IERC20;` statement to your contract,\\n * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.\\n */\\nlibrary SafeERC20 {\\n    /**\\n     * @dev An operation with an ERC-20 token failed.\\n     */\\n    error SafeERC20FailedOperation(address token);\\n\\n    /**\\n     * @dev Indicates a failed `decreaseAllowance` request.\\n     */\\n    error SafeERC20FailedDecreaseAllowance(address spender, uint256 currentAllowance, uint256 requestedDecrease);\\n\\n    /**\\n     * @dev Transfer `value` amount of `token` from the calling contract to `to`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful.\\n     */\\n    function safeTransfer(IERC20 token, address to, uint256 value) internal {\\n        _callOptionalReturn(token, abi.encodeCall(token.transfer, (to, value)));\\n    }\\n\\n    /**\\n     * @dev Transfer `value` amount of `token` from `from` to `to`, spending the approval given by `from` to the\\n     * calling contract. If `token` returns no value, non-reverting calls are assumed to be successful.\\n     */\\n    function safeTransferFrom(IERC20 token, address from, address to, uint256 value) internal {\\n        _callOptionalReturn(token, abi.encodeCall(token.transferFrom, (from, to, value)));\\n    }\\n\\n    /**\\n     * @dev Variant of {safeTransfer} that returns a bool instead of reverting if the operation is not successful.\\n     */\\n    function trySafeTransfer(IERC20 token, address to, uint256 value) internal returns (bool) {\\n        return _callOptionalReturnBool(token, abi.encodeCall(token.transfer, (to, value)));\\n    }\\n\\n    /**\\n     * @dev Variant of {safeTransferFrom} that returns a bool instead of reverting if the operation is not successful.\\n     */\\n    function trySafeTransferFrom(IERC20 token, address from, address to, uint256 value) internal returns (bool) {\\n        return _callOptionalReturnBool(token, abi.encodeCall(token.transferFrom, (from, to, value)));\\n    }\\n\\n    /**\\n     * @dev Increase the calling contract's allowance toward `spender` by `value`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful.\\n     *\\n     * IMPORTANT: If the token implements ERC-7674 (ERC-20 with temporary allowance), and if the \\\"client\\\"\\n     * smart contract uses ERC-7674 to set temporary allowances, then the \\\"client\\\" smart contract should avoid using\\n     * this function. Performing a {safeIncreaseAllowance} or {safeDecreaseAllowance} operation on a token contract\\n     * that has a non-zero temporary allowance (for that particular owner-spender) will result in unexpected behavior.\\n     */\\n    function safeIncreaseAllowance(IERC20 token, address spender, uint256 value) internal {\\n        uint256 oldAllowance = token.allowance(address(this), spender);\\n        forceApprove(token, spender, oldAllowance + value);\\n    }\\n\\n    /**\\n     * @dev Decrease the calling contract's allowance toward `spender` by `requestedDecrease`. If `token` returns no\\n     * value, non-reverting calls are assumed to be successful.\\n     *\\n     * IMPORTANT: If the token implements ERC-7674 (ERC-20 with temporary allowance), and if the \\\"client\\\"\\n     * smart contract uses ERC-7674 to set temporary allowances, then the \\\"client\\\" smart contract should avoid using\\n     * this function. Performing a {safeIncreaseAllowance} or {safeDecreaseAllowance} operation on a token contract\\n     * that has a non-zero temporary allowance (for that particular owner-spender) will result in unexpected behavior.\\n     */\\n    function safeDecreaseAllowance(IERC20 token, address spender, uint256 requestedDecrease) internal {\\n        unchecked {\\n            uint256 currentAllowance = token.allowance(address(this), spender);\\n            if (currentAllowance < requestedDecrease) {\\n                revert SafeERC20FailedDecreaseAllowance(spender, currentAllowance, requestedDecrease);\\n            }\\n            forceApprove(token, spender, currentAllowance - requestedDecrease);\\n        }\\n    }\\n\\n    /**\\n     * @dev Set the calling contract's allowance toward `spender` to `value`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful. Meant to be used with tokens that require the approval\\n     * to be set to zero before setting it to a non-zero value, such as USDT.\\n     *\\n     * NOTE: If the token implements ERC-7674, this function will not modify any temporary allowance. This function\\n     * only sets the \\\"standard\\\" allowance. Any temporary allowance will remain active, in addition to the value being\\n     * set here.\\n     */\\n    function forceApprove(IERC20 token, address spender, uint256 value) internal {\\n        bytes memory approvalCall = abi.encodeCall(token.approve, (spender, value));\\n\\n        if (!_callOptionalReturnBool(token, approvalCall)) {\\n            _callOptionalReturn(token, abi.encodeCall(token.approve, (spender, 0)));\\n            _callOptionalReturn(token, approvalCall);\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} transferAndCall, with a fallback to the simple {ERC20} transfer if the target has no\\n     * code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function transferAndCallRelaxed(IERC1363 token, address to, uint256 value, bytes memory data) internal {\\n        if (to.code.length == 0) {\\n            safeTransfer(token, to, value);\\n        } else if (!token.transferAndCall(to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} transferFromAndCall, with a fallback to the simple {ERC20} transferFrom if the target\\n     * has no code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function transferFromAndCallRelaxed(\\n        IERC1363 token,\\n        address from,\\n        address to,\\n        uint256 value,\\n        bytes memory data\\n    ) internal {\\n        if (to.code.length == 0) {\\n            safeTransferFrom(token, from, to, value);\\n        } else if (!token.transferFromAndCall(from, to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} approveAndCall, with a fallback to the simple {ERC20} approve if the target has no\\n     * code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * NOTE: When the recipient address (`to`) has no code (i.e. is an EOA), this function behaves as {forceApprove}.\\n     * Opposedly, when the recipient address (`to`) has code, this function only attempts to call {ERC1363-approveAndCall}\\n     * once without retrying, and relies on the returned value to be true.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function approveAndCallRelaxed(IERC1363 token, address to, uint256 value, bytes memory data) internal {\\n        if (to.code.length == 0) {\\n            forceApprove(token, to, value);\\n        } else if (!token.approveAndCall(to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement\\n     * on the return value: the return value is optional (but if data is returned, it must not be false).\\n     * @param token The token targeted by the call.\\n     * @param data The call data (encoded using abi.encode or one of its variants).\\n     *\\n     * This is a variant of {_callOptionalReturnBool} that reverts if call fails to meet the requirements.\\n     */\\n    function _callOptionalReturn(IERC20 token, bytes memory data) private {\\n        uint256 returnSize;\\n        uint256 returnValue;\\n        assembly (\\\"memory-safe\\\") {\\n            let success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)\\n            // bubble errors\\n            if iszero(success) {\\n                let ptr := mload(0x40)\\n                returndatacopy(ptr, 0, returndatasize())\\n                revert(ptr, returndatasize())\\n            }\\n            returnSize := returndatasize()\\n            returnValue := mload(0)\\n        }\\n\\n        if (returnSize == 0 ? address(token).code.length == 0 : returnValue != 1) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement\\n     * on the return value: the return value is optional (but if data is returned, it must not be false).\\n     * @param token The token targeted by the call.\\n     * @param data The call data (encoded using abi.encode or one of its variants).\\n     *\\n     * This is a variant of {_callOptionalReturn} that silently catches all reverts and returns a bool instead.\\n     */\\n    function _callOptionalReturnBool(IERC20 token, bytes memory data) private returns (bool) {\\n        bool success;\\n        uint256 returnSize;\\n        uint256 returnValue;\\n        assembly (\\\"memory-safe\\\") {\\n            success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)\\n            returnSize := returndatasize()\\n            returnValue := mload(0)\\n        }\\n        return success && (returnSize == 0 ? address(token).code.length > 0 : returnValue == 1);\\n    }\\n}\\n\",\"keccak256\":\"0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Pausable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.3.0) (utils/Pausable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which allows children to implement an emergency stop\\n * mechanism that can be triggered by an authorized account.\\n *\\n * This module is used through inheritance. It will make available the\\n * modifiers `whenNotPaused` and `whenPaused`, which can be applied to\\n * the functions of your contract. Note that they will not be pausable by\\n * simply including this module, only once the modifiers are put in place.\\n */\\nabstract contract Pausable is Context {\\n    bool private _paused;\\n\\n    /**\\n     * @dev Emitted when the pause is triggered by `account`.\\n     */\\n    event Paused(address account);\\n\\n    /**\\n     * @dev Emitted when the pause is lifted by `account`.\\n     */\\n    event Unpaused(address account);\\n\\n    /**\\n     * @dev The operation failed because the contract is paused.\\n     */\\n    error EnforcedPause();\\n\\n    /**\\n     * @dev The operation failed because the contract is not paused.\\n     */\\n    error ExpectedPause();\\n\\n    /**\\n     * @dev Modifier to make a function callable only when the contract is not paused.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must not be paused.\\n     */\\n    modifier whenNotPaused() {\\n        _requireNotPaused();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Modifier to make a function callable only when the contract is paused.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must be paused.\\n     */\\n    modifier whenPaused() {\\n        _requirePaused();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns true if the contract is paused, and false otherwise.\\n     */\\n    function paused() public view virtual returns (bool) {\\n        return _paused;\\n    }\\n\\n    /**\\n     * @dev Throws if the contract is paused.\\n     */\\n    function _requireNotPaused() internal view virtual {\\n        if (paused()) {\\n            revert EnforcedPause();\\n        }\\n    }\\n\\n    /**\\n     * @dev Throws if the contract is not paused.\\n     */\\n    function _requirePaused() internal view virtual {\\n        if (!paused()) {\\n            revert ExpectedPause();\\n        }\\n    }\\n\\n    /**\\n     * @dev Triggers stopped state.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must not be paused.\\n     */\\n    function _pause() internal virtual whenNotPaused {\\n        _paused = true;\\n        emit Paused(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Returns to normal state.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must be paused.\\n     */\\n    function _unpause() internal virtual whenPaused {\\n        _paused = false;\\n        emit Unpaused(_msgSender());\\n    }\\n}\\n\",\"keccak256\":\"0xdb484371dfbb848cb6f5d70464e9ac9b2900e4164ead76bbce4fef0b44bcc68f\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (utils/ReentrancyGuard.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Contract module that helps prevent reentrant calls to a function.\\n *\\n * Inheriting from `ReentrancyGuard` will make the {nonReentrant} modifier\\n * available, which can be applied to functions to make sure there are no nested\\n * (reentrant) calls to them.\\n *\\n * Note that because there is a single `nonReentrant` guard, functions marked as\\n * `nonReentrant` may not call one another. This can be worked around by making\\n * those functions `private`, and then adding `external` `nonReentrant` entry\\n * points to them.\\n *\\n * TIP: If EIP-1153 (transient storage) is available on the chain you're deploying at,\\n * consider using {ReentrancyGuardTransient} instead.\\n *\\n * TIP: If you would like to learn more about reentrancy and alternative ways\\n * to protect against it, check out our blog post\\n * https://blog.openzeppelin.com/reentrancy-after-istanbul/[Reentrancy After Istanbul].\\n */\\nabstract contract ReentrancyGuard {\\n    // Booleans are more expensive than uint256 or any type that takes up a full\\n    // word because each write operation emits an extra SLOAD to first read the\\n    // slot's contents, replace the bits taken up by the boolean, and then write\\n    // back. This is the compiler's defense against contract upgrades and\\n    // pointer aliasing, and it cannot be disabled.\\n\\n    // The values being non-zero value makes deployment a bit more expensive,\\n    // but in exchange the refund on every call to nonReentrant will be lower in\\n    // amount. Since refunds are capped to a percentage of the total\\n    // transaction's gas, it is best to keep them low in cases like this one, to\\n    // increase the likelihood of the full refund coming into effect.\\n    uint256 private constant NOT_ENTERED = 1;\\n    uint256 private constant ENTERED = 2;\\n\\n    uint256 private _status;\\n\\n    /**\\n     * @dev Unauthorized reentrant call.\\n     */\\n    error ReentrancyGuardReentrantCall();\\n\\n    constructor() {\\n        _status = NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Prevents a contract from calling itself, directly or indirectly.\\n     * Calling a `nonReentrant` function from another `nonReentrant`\\n     * function is not supported. It is possible to prevent this from happening\\n     * by making the `nonReentrant` function external, and making it call a\\n     * `private` function that does the actual work.\\n     */\\n    modifier nonReentrant() {\\n        _nonReentrantBefore();\\n        _;\\n        _nonReentrantAfter();\\n    }\\n\\n    function _nonReentrantBefore() private {\\n        // On the first call to nonReentrant, _status will be NOT_ENTERED\\n        if (_status == ENTERED) {\\n            revert ReentrancyGuardReentrantCall();\\n        }\\n\\n        // Any calls to nonReentrant after this point will fail\\n        _status = ENTERED;\\n    }\\n\\n    function _nonReentrantAfter() private {\\n        // By storing the original value once again, a refund is triggered (see\\n        // https://eips.ethereum.org/EIPS/eip-2200)\\n        _status = NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Returns true if the reentrancy guard is currently set to \\\"entered\\\", which indicates there is a\\n     * `nonReentrant` function in the call stack.\\n     */\\n    function _reentrancyGuardEntered() internal view returns (bool) {\\n        return _status == ENTERED;\\n    }\\n}\\n\",\"keccak256\":\"0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (utils/introspection/IERC165.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Interface of the ERC-165 standard, as defined in the\\n * https://eips.ethereum.org/EIPS/eip-165[ERC].\\n *\\n * Implementers can declare support of contract interfaces, which can then be\\n * queried by others ({ERC165Checker}).\\n *\\n * For an implementation, see {ERC165}.\\n */\\ninterface IERC165 {\\n    /**\\n     * @dev Returns true if this contract implements the interface defined by\\n     * `interfaceId`. See the corresponding\\n     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[ERC section]\\n     * to learn more about how these ids are created.\\n     *\\n     * This function call must use less than 30 000 gas.\\n     */\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\n}\\n\",\"keccak256\":\"0x79796192ec90263f21b464d5bc90b777a525971d3de8232be80d9c4f9fb353b8\",\"license\":\"MIT\"},\"contracts/MockAggregatorV3Interface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.19;\\r\\n\\r\\n/**\\r\\n * @title MockAggregatorV3Interface\\r\\n * @dev Mock Chainlink AggregatorV3Interface for testing purposes\\r\\n * @notice This is a mock contract for testing purposes only\\r\\n * WARNING: This is NOT the real AggregatorV3Interface - for testing only\\r\\n */\\r\\ninterface AggregatorV3Interface {\\r\\n    function decimals() external view returns (uint8);\\r\\n    function description() external view returns (string memory);\\r\\n    function version() external view returns (uint256);\\r\\n    \\r\\n    function latestRoundData()\\r\\n        external\\r\\n        view\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        );\\r\\n    \\r\\n    function getRoundData(uint80 _roundId)\\r\\n        external\\r\\n        view\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        );\\r\\n}\\r\\n\",\"keccak256\":\"0x3f77956e475c33958624a472f6dd9376e7eda3e29b7a36a2115314e6c11b0d88\",\"license\":\"MIT\"},\"contracts/MockCCIPReceiver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.19;\\r\\n\\r\\nimport \\\"./MockCCIPRouter.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title IMockCCIPReceiver\\r\\n * @dev Interface for contract that can receive CCIP messages\\r\\n */\\r\\ninterface IMockCCIPReceiver {\\r\\n    function ccipReceive(MockCCIPRouter.Any2EVMMessage calldata message) external;\\r\\n}\\r\\n\\r\\n/**\\r\\n * @title MockCCIPReceiver\\r\\n * @dev Base contract for CCIP receivers\\r\\n */\\r\\nabstract contract MockCCIPReceiver is IMockCCIPReceiver {\\r\\n    address internal immutable i_router;\\r\\n\\r\\n    constructor(address router) {\\r\\n        i_router = router;\\r\\n    }\\r\\n\\r\\n    /// @notice Only allow a call to be made by the router\\r\\n    modifier onlyRouter() {\\r\\n        require(msg.sender == i_router, \\\"MockCCIPReceiver: caller is not the router\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    // \\u2705 FIXED: Abstract functions can't have modifiers\\r\\n    // The implementing contract should use the onlyRouter modifier\\r\\n    function ccipReceive(MockCCIPRouter.Any2EVMMessage calldata message) \\r\\n        external \\r\\n        virtual \\r\\n        override;\\r\\n}\\r\\n\",\"keccak256\":\"0x9a0bec5bbbeca8eb2527d9eb92ef37d16bcf6b83901cbd4e3e33fa9010b50fbc\",\"license\":\"MIT\"},\"contracts/MockCCIPRouter.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.19;\\r\\n\\r\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title MockCCIPRouter\\r\\n * @dev Mock CCIP Router for testing on Morph testnet\\r\\n * @notice This is a mock contract for testing purposes only\\r\\n * WARNING: This is NOT a real CCIP Router - Morph testnet does not have Chainlink CCIP support\\r\\n */\\r\\ncontract MockCCIPRouter {\\r\\n    event CCIPSendRequested(\\r\\n        uint64 indexed destinationChainSelector,\\r\\n        address indexed receiver,\\r\\n        bytes data,\\r\\n        address indexed sender\\r\\n    );\\r\\n\\r\\n    event MessageExecuted(\\r\\n        bytes32 indexed messageId,\\r\\n        uint64 indexed sourceChainSelector,\\r\\n        address indexed sender,\\r\\n        address receiver,\\r\\n        bytes data\\r\\n    );\\r\\n\\r\\n    struct EVM2AnyMessage {\\r\\n        bytes receiver;\\r\\n        bytes data;\\r\\n        EVMTokenAmount[] tokenAmounts;\\r\\n        address feeToken;\\r\\n        bytes extraArgs;\\r\\n    }\\r\\n\\r\\n    struct EVMTokenAmount {\\r\\n        address token;\\r\\n        uint256 amount;\\r\\n    }\\r\\n    \\r\\n    // \\u2705 ADDED: Missing struct that was causing the compilation error\\r\\n    struct Any2EVMMessage {\\r\\n        bytes32 messageId;\\r\\n        uint64 sourceChainSelector;\\r\\n        bytes sender;\\r\\n        bytes data;\\r\\n        EVMTokenAmount[] tokenAmounts;\\r\\n    }\\r\\n    \\r\\n    mapping(uint64 => bool) public supportedChains;\\r\\n    mapping(bytes32 => bool) public executedMessages;\\r\\n    \\r\\n    uint256 public constant MOCK_FEE = 0.001 ether;\\r\\n    uint256 private messageIdCounter = 1;\\r\\n\\r\\n    constructor() {\\r\\n        // Add all chains that your frontend supports\\r\\n        supportedChains[2810] = true; // Morph testnet\\r\\n        supportedChains[16015286601757825753] = true; // Ethereum Sepolia\\r\\n        supportedChains[10344971235874465080] = true; // BSC Testnet\\r\\n        supportedChains[14767482510784806043] = true; // Avalanche Fuji\\r\\n        supportedChains[3478487238524512106] = true; // Arbitrum Sepolia\\r\\n        supportedChains[5224473277236331295] = true; // Optimism Sepolia\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Mock function to simulate sending a CCIP message\\r\\n     */\\r\\n    function ccipSend(\\r\\n        uint64 destinationChainSelector,\\r\\n        EVM2AnyMessage calldata message\\r\\n    ) external payable returns (bytes32) {\\r\\n        require(supportedChains[destinationChainSelector], \\\"Unsupported chain\\\");\\r\\n        require(msg.value >= MOCK_FEE, \\\"Insufficient fee\\\");\\r\\n\\r\\n        bytes32 messageId = keccak256(abi.encodePacked(messageIdCounter++, block.timestamp, msg.sender));\\r\\n        \\r\\n        emit CCIPSendRequested(\\r\\n            destinationChainSelector,\\r\\n            abi.decode(message.receiver, (address)),\\r\\n            message.data,\\r\\n            msg.sender\\r\\n        );\\r\\n\\r\\n        return messageId;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Mock function to get the fee for sending a message\\r\\n     */\\r\\n    function getFee(\\r\\n        uint64 destinationChainSelector,\\r\\n        EVM2AnyMessage calldata message\\r\\n    ) external view returns (uint256) {\\r\\n        require(supportedChains[destinationChainSelector], \\\"Unsupported chain\\\");\\r\\n        return MOCK_FEE;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Mock function to simulate receiving a CCIP message\\r\\n     */\\r\\n    function mockReceiveMessage(\\r\\n        bytes32 messageId,\\r\\n        uint64 sourceChainSelector,\\r\\n        address sender,\\r\\n        address receiver,\\r\\n        bytes calldata data\\r\\n    ) external {\\r\\n        require(!executedMessages[messageId], \\\"Message already executed\\\");\\r\\n        executedMessages[messageId] = true;\\r\\n\\r\\n        emit MessageExecuted(messageId, sourceChainSelector, sender, receiver, data);\\r\\n        \\r\\n        // In a real implementation, this would call the receiver's ccipReceive function\\r\\n        // For testing, we just emit the event\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Add supported chain (admin function)\\r\\n     */\\r\\n    function addSupportedChain(uint64 chainSelector) external {\\r\\n        supportedChains[chainSelector] = true;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Check if a chain is supported\\r\\n     */\\r\\n    function isChainSupported(uint64 chainSelector) external view returns (bool) {\\r\\n        return supportedChains[chainSelector];\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Withdraw collected fees (for testing)\\r\\n     */\\r\\n    function withdrawFees() external {\\r\\n        payable(msg.sender).transfer(address(this).balance);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x278d0062e7408522f17469fcbe91da66fcdc2a110fdf90bdf36e77bf8d57013f\",\"license\":\"MIT\"},\"contracts/RemitXCore.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.19;\\r\\n\\r\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\r\\nimport \\\"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\\\";\\r\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\r\\nimport \\\"@openzeppelin/contracts/utils/ReentrancyGuard.sol\\\";\\r\\nimport \\\"@openzeppelin/contracts/utils/Pausable.sol\\\";\\r\\nimport \\\"./MockAggregatorV3Interface.sol\\\";\\r\\nimport \\\"./MockCCIPReceiver.sol\\\";\\r\\nimport \\\"./MockCCIPRouter.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title RemitXCore\\r\\n * @dev Core contract for RemitX stablecoin-based remittance system with direct transfers\\r\\n * WARNING: This uses mock CCIP contracts - Morph testnet does not have official Chainlink CCIP support\\r\\n * @notice Handles cross-border remittances with immediate token delivery using CCIP\\r\\n */\\r\\ncontract RemitXCore is Ownable, ReentrancyGuard, Pausable, MockCCIPReceiver {\\r\\n    using SafeERC20 for IERC20;\\r\\n\\r\\n    // Error for message processing\\r\\n    error MessageAlreadyProcessed();\\r\\n\\r\\n    // Events\\r\\n    event RemittanceCreated(\\r\\n        bytes32 indexed remittanceId,\\r\\n        address indexed sender,\\r\\n        address indexed recipient,\\r\\n        uint256 amount,\\r\\n        address sourceToken,\\r\\n        address targetToken,\\r\\n        uint64 destinationChain\\r\\n    );\\r\\n\\r\\n    // Event for direct transfer completion (no claiming needed)\\r\\n    event RemittanceCompleted(\\r\\n        bytes32 indexed remittanceId,\\r\\n        address indexed recipient,\\r\\n        uint256 amount,\\r\\n        address targetToken,\\r\\n        bool isCrossChain\\r\\n    );\\r\\n\\r\\n    // Event for remittance deletion (only for failed transfers)\\r\\n    event RemittanceDeleted(\\r\\n        bytes32 indexed remittanceId,\\r\\n        address indexed sender,\\r\\n        uint256 refundedAmount,\\r\\n        address sourceToken,\\r\\n        uint256 refundedETH\\r\\n    );\\r\\n\\r\\n    // Enhanced: Cross-chain event with direct transfer info\\r\\n    event CrossChainRemittanceSent(\\r\\n        bytes32 indexed remittanceId,\\r\\n        bytes32 indexed messageId,\\r\\n        uint64 indexed destinationChain,\\r\\n        address recipient,\\r\\n        uint256 amount,\\r\\n        address targetToken\\r\\n    );\\r\\n\\r\\n    // Event for cross-chain receipt confirmation\\r\\n    event CrossChainRemittanceReceived(\\r\\n        bytes32 indexed remittanceId,\\r\\n        bytes32 indexed messageId,\\r\\n        address indexed recipient,\\r\\n        uint256 amount,\\r\\n        address targetToken\\r\\n    );\\r\\n\\r\\n    event TokenSwapped(\\r\\n        address indexed user,\\r\\n        address indexed tokenIn,\\r\\n        address indexed tokenOut,\\r\\n        uint256 amountIn,\\r\\n        uint256 amountOut\\r\\n    );\\r\\n\\r\\n    event FeeUpdated(uint256 oldFee, uint256 newFee);\\r\\n\\r\\n    // Struct for direct transfer model\\r\\n    struct Remittance {\\r\\n        address sender;\\r\\n        address recipient;\\r\\n        uint256 amount;\\r\\n        address sourceToken;\\r\\n        address targetToken;\\r\\n        uint64 destinationChain;\\r\\n        uint256 timestamp;\\r\\n        bool completed; // Changed: From 'claimed' to 'completed' (auto-set to true)\\r\\n        bool deleted; // Track if remittance is deleted (only for failed transfers)\\r\\n        uint256 exchangeRate;\\r\\n        uint256 ccipFee; // Track CCIP fee paid\\r\\n        bool isCrossChain; // Track if it was cross-chain transfer\\r\\n        bytes32 ccipMessageId; // Track CCIP message ID for cross-chain transfers\\r\\n    }\\r\\n\\r\\n    struct TokenConfig {\\r\\n        bool isSupported;\\r\\n        address priceFeed;\\r\\n        uint256 minAmount;\\r\\n        uint256 maxAmount;\\r\\n    }\\r\\n\\r\\n    // State variables\\r\\n    mapping(bytes32 => Remittance) public remittances;\\r\\n    mapping(address => TokenConfig) public supportedTokens;\\r\\n    mapping(uint64 => bool) public supportedChains;\\r\\n    mapping(address => bytes32[]) public userRemittances; // Track user's remittances\\r\\n    mapping(bytes32 => bool) public processedMessages; // Track processed CCIP messages\\r\\n    \\r\\n    MockCCIPRouter public ccipRouter;\\r\\n    address public linkToken;\\r\\n    \\r\\n    uint256 public remittanceFee = 50; // 0.5% in basis points\\r\\n    uint256 public constant MAX_FEE = 1000; // 10% maximum fee\\r\\n    uint256 public constant BASIS_POINTS = 10000;\\r\\n    \\r\\n    bytes32[] public remittanceIds;\\r\\n    \\r\\n    // Enhanced: Custom errors\\r\\n    error RemittanceNotFound();\\r\\n    error OnlyCreatorCanDelete();\\r\\n    error RemittanceAlreadyCompleted(); // Changed: From AlreadyClaimed to AlreadyCompleted\\r\\n    error RemittanceAlreadyDeleted();\\r\\n    error InvalidRecipient();\\r\\n    error InvalidAmount();\\r\\n    error TokenNotSupported();\\r\\n    error ChainNotSupported();\\r\\n    error AmountBelowMinimum();\\r\\n    error AmountAboveMaximum();\\r\\n    error SlippageTooHigh();\\r\\n    error FeeTooHigh();\\r\\n    error InvalidPriceData();\\r\\n    error InsufficientCCIPFee();\\r\\n    error TransferFailed();\\r\\n    error InsufficientContractBalance(); // For contract liquidity check\\r\\n    error DirectTransferFailed(); // For direct transfer failures\\r\\n    \\r\\n    // Update constructor to initialize MockCCIPReceiver\\r\\n    constructor(\\r\\n        address _ccipRouter,\\r\\n        address _linkToken,\\r\\n        address initialOwner\\r\\n    ) Ownable(initialOwner) MockCCIPReceiver(_ccipRouter) {\\r\\n        ccipRouter = MockCCIPRouter(_ccipRouter);\\r\\n        linkToken = _linkToken;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * COMPLETELY REWRITTEN: Creates remittance with immediate direct transfer\\r\\n     * @param recipient The recipient address\\r\\n     * @param amount The amount to send\\r\\n     * @param sourceToken The source token address\\r\\n     * @param targetToken The target token address\\r\\n     * @param destinationChain The destination chain selector\\r\\n     */\\r\\n    function createRemittance(\\r\\n        address recipient,\\r\\n        uint256 amount,\\r\\n        address sourceToken,\\r\\n        address targetToken,\\r\\n        uint64 destinationChain\\r\\n    ) external payable nonReentrant whenNotPaused {\\r\\n        // Enhanced validations\\r\\n        if (recipient == address(0)) revert InvalidRecipient();\\r\\n        if (amount == 0) revert InvalidAmount();\\r\\n        if (!supportedTokens[sourceToken].isSupported) revert TokenNotSupported();\\r\\n        if (!supportedTokens[targetToken].isSupported) revert TokenNotSupported();\\r\\n        if (!supportedChains[destinationChain]) revert ChainNotSupported();\\r\\n        \\r\\n        TokenConfig memory sourceConfig = supportedTokens[sourceToken];\\r\\n        if (amount < sourceConfig.minAmount) revert AmountBelowMinimum();\\r\\n        if (amount > sourceConfig.maxAmount) revert AmountAboveMaximum();\\r\\n\\r\\n        // Calculate fee\\r\\n        uint256 fee = (amount * remittanceFee) / BASIS_POINTS;\\r\\n        uint256 amountAfterFee = amount - fee;\\r\\n\\r\\n        // Get exchange rate and calculate target amount\\r\\n        uint256 exchangeRate = getExchangeRate(sourceToken, targetToken);\\r\\n        uint256 targetAmount = (amountAfterFee * exchangeRate) / 1e18;\\r\\n\\r\\n        // CRITICAL: Check contract has sufficient target tokens for direct transfer\\r\\n        uint256 contractBalance = IERC20(targetToken).balanceOf(address(this));\\r\\n        if (contractBalance < targetAmount) {\\r\\n            revert InsufficientContractBalance();\\r\\n        }\\r\\n\\r\\n        // Transfer source tokens from sender to contract\\r\\n        IERC20(sourceToken).safeTransferFrom(msg.sender, address(this), amount);\\r\\n\\r\\n        // Determine if cross-chain transfer\\r\\n        bool isCrossChain = destinationChain != block.chainid && destinationChain != 2810;\\r\\n        \\r\\n        // CRITICAL: Validate CCIP fee for cross-chain transfers\\r\\n        if (isCrossChain) {\\r\\n            uint256 requiredCcipFee = getFee(destinationChain, recipient, targetAmount);\\r\\n            if (msg.value < requiredCcipFee) revert InsufficientCCIPFee();\\r\\n        }\\r\\n\\r\\n        // Create unique remittance ID\\r\\n        bytes32 remittanceId = keccak256(\\r\\n            abi.encodePacked(\\r\\n                msg.sender,\\r\\n                recipient,\\r\\n                amount,\\r\\n                sourceToken,\\r\\n                targetToken,\\r\\n                destinationChain,\\r\\n                block.timestamp,\\r\\n                block.number\\r\\n            )\\r\\n        );\\r\\n\\r\\n        // Store remittance as completed (direct transfer model)\\r\\n        remittances[remittanceId] = Remittance({\\r\\n            sender: msg.sender,\\r\\n            recipient: recipient,\\r\\n            amount: amountAfterFee,\\r\\n            sourceToken: sourceToken,\\r\\n            targetToken: targetToken,\\r\\n            destinationChain: destinationChain,\\r\\n            timestamp: block.timestamp,\\r\\n            completed: true, // CRITICAL: Always true for direct transfers\\r\\n            deleted: false,\\r\\n            exchangeRate: exchangeRate,\\r\\n            ccipFee: msg.value,\\r\\n            isCrossChain: isCrossChain,\\r\\n            ccipMessageId: bytes32(0) // Will be set for cross-chain transfers\\r\\n        });\\r\\n\\r\\n        // Add to tracking arrays\\r\\n        remittanceIds.push(remittanceId);\\r\\n        userRemittances[msg.sender].push(remittanceId);\\r\\n\\r\\n        // Emit creation event\\r\\n        emit RemittanceCreated(\\r\\n            remittanceId,\\r\\n            msg.sender,\\r\\n            recipient,\\r\\n            amountAfterFee,\\r\\n            sourceToken,\\r\\n            targetToken,\\r\\n            destinationChain\\r\\n        );\\r\\n\\r\\n        // CRITICAL: Execute direct transfer immediately\\r\\n        if (isCrossChain) {\\r\\n            // Cross-chain: Send via CCIP with direct delivery to recipient\\r\\n            _executeDirectCrossChainTransfer(remittanceId, recipient, targetAmount, targetToken, destinationChain);\\r\\n        } else {\\r\\n            // Same chain: Direct transfer to recipient immediately\\r\\n            _executeDirectSameChainTransfer(remittanceId, recipient, targetAmount, targetToken);\\r\\n        }\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * FIXED: Execute direct same-chain transfer - replaced try/catch with direct call\\r\\n     */\\r\\n    function _executeDirectSameChainTransfer(\\r\\n        bytes32 remittanceId,\\r\\n        address recipient,\\r\\n        uint256 targetAmount,\\r\\n        address targetToken\\r\\n    ) internal {\\r\\n        // FIXED: Removed try/catch that was causing compilation error\\r\\n        // Instead, use direct transfer and handle failures at the contract level\\r\\n        IERC20(targetToken).safeTransfer(recipient, targetAmount);\\r\\n        \\r\\n        // If we got here without reverting, transfer was successful\\r\\n        emit RemittanceCompleted(remittanceId, recipient, targetAmount, targetToken, false);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * Execute direct cross-chain transfer via CCIP\\r\\n     */\\r\\n    function _executeDirectCrossChainTransfer(\\r\\n        bytes32 remittanceId,\\r\\n        address recipient,\\r\\n        uint256 targetAmount,\\r\\n        address targetToken,\\r\\n        uint64 destinationChain\\r\\n    ) internal {\\r\\n        // Enhanced CCIP message with token transfer\\r\\n        MockCCIPRouter.EVMTokenAmount[] memory tokenAmounts = new MockCCIPRouter.EVMTokenAmount[](1);\\r\\n        tokenAmounts[0] = MockCCIPRouter.EVMTokenAmount({\\r\\n            token: targetToken,\\r\\n            amount: targetAmount\\r\\n        });\\r\\n\\r\\n        MockCCIPRouter.EVM2AnyMessage memory message = MockCCIPRouter.EVM2AnyMessage({\\r\\n            receiver: abi.encode(recipient), // Direct delivery to recipient\\r\\n            data: abi.encode(\\r\\n                \\\"DIRECT_TRANSFER\\\", // Flag for direct transfer\\r\\n                remittanceId,\\r\\n                recipient,\\r\\n                targetAmount,\\r\\n                targetToken\\r\\n            ),\\r\\n            tokenAmounts: tokenAmounts, // CRITICAL: Include token transfer\\r\\n            feeToken: address(0), // Use ETH for fees\\r\\n            extraArgs: \\\"\\\"\\r\\n        });\\r\\n        \\r\\n        // FIXED: Replaced try/catch with direct call and handle failures at caller level\\r\\n        bytes32 messageId = ccipRouter.ccipSend{value: msg.value}(destinationChain, message);\\r\\n        \\r\\n        // Update remittance with message ID\\r\\n        remittances[remittanceId].ccipMessageId = messageId;\\r\\n        \\r\\n        emit CrossChainRemittanceSent(\\r\\n            remittanceId,\\r\\n            messageId,\\r\\n            destinationChain,\\r\\n            recipient,\\r\\n            targetAmount,\\r\\n            targetToken\\r\\n        );\\r\\n        \\r\\n        emit RemittanceCompleted(remittanceId, recipient, targetAmount, targetToken, true);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * ENHANCED: Delete remittance - now only for failed transfers with full refund\\r\\n     * @param remittanceId The remittance ID to delete\\r\\n     */\\r\\n    function deleteRemittance(bytes32 remittanceId) external nonReentrant whenNotPaused {\\r\\n        Remittance storage remittance = remittances[remittanceId];\\r\\n        \\r\\n        if (remittance.sender == address(0)) revert RemittanceNotFound();\\r\\n        if (remittance.sender != msg.sender) revert OnlyCreatorCanDelete();\\r\\n        if (remittance.completed) revert RemittanceAlreadyCompleted(); // CHANGED: Can't delete completed transfers\\r\\n        if (remittance.deleted) revert RemittanceAlreadyDeleted();\\r\\n\\r\\n        // Mark as deleted\\r\\n        remittance.deleted = true;\\r\\n\\r\\n        // ENHANCED: Calculate full refund including fees\\r\\n        uint256 feeAmount = (remittance.amount * remittanceFee) / (BASIS_POINTS - remittanceFee);\\r\\n        uint256 totalTokenRefund = remittance.amount + feeAmount;\\r\\n\\r\\n        // Refund source tokens\\r\\n        IERC20(remittance.sourceToken).safeTransfer(msg.sender, totalTokenRefund);\\r\\n\\r\\n        // ENHANCED: Refund CCIP fee if it was a cross-chain transfer\\r\\n        uint256 ethRefund = 0;\\r\\n        if (remittance.ccipFee > 0) {\\r\\n            ethRefund = remittance.ccipFee;\\r\\n            payable(msg.sender).transfer(ethRefund);\\r\\n        }\\r\\n\\r\\n        emit RemittanceDeleted(\\r\\n            remittanceId,\\r\\n            msg.sender,\\r\\n            totalTokenRefund,\\r\\n            remittance.sourceToken,\\r\\n            ethRefund\\r\\n        );\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * PRESERVED: Token swapping functionality (unchanged)\\r\\n     */\\r\\n    function swapTokens(\\r\\n        address tokenIn,\\r\\n        address tokenOut,\\r\\n        uint256 amountIn,\\r\\n        uint256 minAmountOut\\r\\n    ) external nonReentrant whenNotPaused {\\r\\n        if (!supportedTokens[tokenIn].isSupported) revert TokenNotSupported();\\r\\n        if (!supportedTokens[tokenOut].isSupported) revert TokenNotSupported();\\r\\n        if (amountIn == 0) revert InvalidAmount();\\r\\n\\r\\n        // Get exchange rate\\r\\n        uint256 exchangeRate = getExchangeRate(tokenIn, tokenOut);\\r\\n        uint256 amountOut = (amountIn * exchangeRate) / 1e18;\\r\\n\\r\\n        if (amountOut < minAmountOut) revert SlippageTooHigh();\\r\\n\\r\\n        // Check contract has sufficient output tokens\\r\\n        uint256 contractBalance = IERC20(tokenOut).balanceOf(address(this));\\r\\n        if (contractBalance < amountOut) revert InsufficientContractBalance();\\r\\n\\r\\n        // Transfer input tokens from user\\r\\n        IERC20(tokenIn).safeTransferFrom(msg.sender, address(this), amountIn);\\r\\n\\r\\n        // Transfer output tokens to user\\r\\n        IERC20(tokenOut).safeTransfer(msg.sender, amountOut);\\r\\n\\r\\n        emit TokenSwapped(msg.sender, tokenIn, tokenOut, amountIn, amountOut);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * ENHANCED: Calculate CCIP fee with token transfer support\\r\\n     */\\r\\n    function getFee(\\r\\n        uint64 destinationChainSelector,\\r\\n        address recipient,\\r\\n        uint256 amount\\r\\n    ) public view returns (uint256) {\\r\\n        // Same chain transfers have no CCIP fee\\r\\n        if (destinationChainSelector == block.chainid || destinationChainSelector == 2810) {\\r\\n            return 0;\\r\\n        }\\r\\n        \\r\\n        // Check if chain is supported\\r\\n        if (!supportedChains[destinationChainSelector]) {\\r\\n            return 0;\\r\\n        }\\r\\n        \\r\\n        // ENHANCED: Create message with token transfer for accurate fee calculation\\r\\n        MockCCIPRouter.EVMTokenAmount[] memory tokenAmounts = new MockCCIPRouter.EVMTokenAmount[](1);\\r\\n        tokenAmounts[0] = MockCCIPRouter.EVMTokenAmount({\\r\\n            token: address(0), // Placeholder - actual token address will be used in real transfer\\r\\n            amount: amount\\r\\n        });\\r\\n\\r\\n        MockCCIPRouter.EVM2AnyMessage memory message = MockCCIPRouter.EVM2AnyMessage({\\r\\n            receiver: abi.encode(recipient),\\r\\n            data: abi.encode(\\\"DIRECT_TRANSFER\\\", recipient, amount),\\r\\n            tokenAmounts: tokenAmounts,\\r\\n            feeToken: address(0), // Use ETH for fees\\r\\n            extraArgs: \\\"\\\"\\r\\n        });\\r\\n        \\r\\n        return ccipRouter.getFee(destinationChainSelector, message);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * PRESERVED: Exchange rate calculation (unchanged)\\r\\n     */\\r\\n    function getExchangeRate(address tokenA, address tokenB) public view returns (uint256) {\\r\\n        TokenConfig memory configA = supportedTokens[tokenA];\\r\\n        TokenConfig memory configB = supportedTokens[tokenB];\\r\\n\\r\\n        require(configA.priceFeed != address(0), \\\"Price feed not set for token A\\\");\\r\\n        require(configB.priceFeed != address(0), \\\"Price feed not set for token B\\\");\\r\\n\\r\\n        (, int256 priceA, , , ) = AggregatorV3Interface(configA.priceFeed).latestRoundData();\\r\\n        (, int256 priceB, , , ) = AggregatorV3Interface(configB.priceFeed).latestRoundData();\\r\\n\\r\\n        if (priceA <= 0 || priceB <= 0) revert InvalidPriceData();\\r\\n\\r\\n        // Calculate exchange rate: (priceA / priceB) * 1e18\\r\\n        return (uint256(priceA) * 1e18) / uint256(priceB);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * FIXED: CCIP receive implementation with onlyRouter modifier\\r\\n     */\\r\\n    function ccipReceive(MockCCIPRouter.Any2EVMMessage calldata message) \\r\\n        external \\r\\n        override \\r\\n        onlyRouter \\r\\n    {\\r\\n        // Prevent duplicate processing\\r\\n        if (processedMessages[message.messageId]) revert MessageAlreadyProcessed();\\r\\n        processedMessages[message.messageId] = true;\\r\\n\\r\\n        // Decode message data\\r\\n        (string memory transferType, bytes32 remittanceId, address recipient, uint256 amount, address targetToken) = \\r\\n            abi.decode(message.data, (string, bytes32, address, uint256, address));\\r\\n\\r\\n        if (keccak256(bytes(transferType)) == keccak256(bytes(\\\"DIRECT_TRANSFER\\\"))) {\\r\\n            // Execute direct transfer to recipient\\r\\n            IERC20(targetToken).safeTransfer(recipient, amount);\\r\\n            \\r\\n            emit CrossChainRemittanceReceived(remittanceId, message.messageId, recipient, amount, targetToken);\\r\\n        }\\r\\n    }\\r\\n\\r\\n    // PRESERVED: User query functions (updated for direct transfer model)\\r\\n    function getUserRemittances(address user) external view returns (bytes32[] memory) {\\r\\n        return userRemittances[user];\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * UPDATED: Get user's active remittances (only non-deleted, since all are completed)\\r\\n     */\\r\\n    function getUserActiveRemittances(address user) external view returns (bytes32[] memory) {\\r\\n        bytes32[] memory userIds = userRemittances[user];\\r\\n        uint256 activeCount = 0;\\r\\n        \\r\\n        // Count non-deleted remittances (all completed transfers are considered active)\\r\\n        for (uint256 i = 0; i < userIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[userIds[i]];\\r\\n            if (!remittance.deleted) {\\r\\n                activeCount++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        // Create array of active remittance IDs\\r\\n        bytes32[] memory activeIds = new bytes32[](activeCount);\\r\\n        uint256 currentIndex = 0;\\r\\n        \\r\\n        for (uint256 i = 0; i < userIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[userIds[i]];\\r\\n            if (!remittance.deleted) {\\r\\n                activeIds[currentIndex] = userIds[i];\\r\\n                currentIndex++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        return activeIds;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * NEW: Get remittances received by user (for \\\"Received\\\" tab)\\r\\n     */\\r\\n    function getUserReceivedRemittances(address user) external view returns (bytes32[] memory) {\\r\\n        uint256 count = 0;\\r\\n        \\r\\n        // Count remittances received by user\\r\\n        for (uint256 i = 0; i < remittanceIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[remittanceIds[i]];\\r\\n            if (remittance.recipient == user && remittance.completed && !remittance.deleted) {\\r\\n                count++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        // Create array of received remittance IDs\\r\\n        bytes32[] memory receivedIds = new bytes32[](count);\\r\\n        uint256 currentIndex = 0;\\r\\n        \\r\\n        for (uint256 i = 0; i < remittanceIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[remittanceIds[i]];\\r\\n            if (remittance.recipient == user && remittance.completed && !remittance.deleted) {\\r\\n                receivedIds[currentIndex] = remittanceIds[i];\\r\\n                currentIndex++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        return receivedIds;\\r\\n    }\\r\\n\\r\\n    // PRESERVED: Get remittance details\\r\\n    function getRemittance(bytes32 remittanceId) external view returns (Remittance memory) {\\r\\n        return remittances[remittanceId];\\r\\n    }\\r\\n\\r\\n    // PRESERVED: Admin functions (unchanged)\\r\\n    function addSupportedToken(\\r\\n        address token,\\r\\n        address priceFeed,\\r\\n        uint256 minAmount,\\r\\n        uint256 maxAmount\\r\\n    ) external onlyOwner {\\r\\n        supportedTokens[token] = TokenConfig({\\r\\n            isSupported: true,\\r\\n            priceFeed: priceFeed,\\r\\n            minAmount: minAmount,\\r\\n            maxAmount: maxAmount\\r\\n        });\\r\\n    }\\r\\n\\r\\n    function removeSupportedToken(address token) external onlyOwner {\\r\\n        delete supportedTokens[token];\\r\\n    }\\r\\n\\r\\n    function addSupportedChain(uint64 chainSelector) external onlyOwner {\\r\\n        supportedChains[chainSelector] = true;\\r\\n    }\\r\\n\\r\\n    function removeSupportedChain(uint64 chainSelector) external onlyOwner {\\r\\n        supportedChains[chainSelector] = false;\\r\\n    }\\r\\n\\r\\n    function setRemittanceFee(uint256 newFee) external onlyOwner {\\r\\n        if (newFee > MAX_FEE) revert FeeTooHigh();\\r\\n        emit FeeUpdated(remittanceFee, newFee);\\r\\n        remittanceFee = newFee;\\r\\n    }\\r\\n\\r\\n    function withdrawFees(address token, address to, uint256 amount) external onlyOwner {\\r\\n        IERC20(token).safeTransfer(to, amount);\\r\\n    }\\r\\n\\r\\n    function withdrawETHFees(address payable to, uint256 amount) external onlyOwner {\\r\\n        to.transfer(amount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * NEW: Emergency function to fund contract with tokens for direct transfers\\r\\n     */\\r\\n    function fundContract(address token, uint256 amount) external onlyOwner {\\r\\n        IERC20(token).safeTransferFrom(msg.sender, address(this), amount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * NEW: Check contract token balance for liquidity\\r\\n     */\\r\\n    function getContractTokenBalance(address token) external view returns (uint256) {\\r\\n        return IERC20(token).balanceOf(address(this));\\r\\n    }\\r\\n\\r\\n    function pause() external onlyOwner {\\r\\n        _pause();\\r\\n    }\\r\\n\\r\\n    function unpause() external onlyOwner {\\r\\n        _unpause();\\r\\n    }\\r\\n\\r\\n    // PRESERVED: View functions\\r\\n    function getRemittanceCount() external view returns (uint256) {\\r\\n        return remittanceIds.length;\\r\\n    }\\r\\n\\r\\n    function getRemittancesByUser(address user) external view returns (bytes32[] memory) {\\r\\n        uint256 count = 0;\\r\\n        \\r\\n        // Count all remittances involving user\\r\\n        for (uint256 i = 0; i < remittanceIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[remittanceIds[i]];\\r\\n            if ((remittance.sender == user || remittance.recipient == user) && !remittance.deleted) {\\r\\n                count++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        // Create array\\r\\n        bytes32[] memory userRemittancesList = new bytes32[](count);\\r\\n        uint256 index = 0;\\r\\n        \\r\\n        for (uint256 i = 0; i < remittanceIds.length; i++) {\\r\\n            Remittance memory remittance = remittances[remittanceIds[i]];\\r\\n            if ((remittance.sender == user || remittance.recipient == user) && !remittance.deleted) {\\r\\n                userRemittancesList[index] = remittanceIds[i];\\r\\n                index++;\\r\\n            }\\r\\n        }\\r\\n        \\r\\n        return userRemittancesList;\\r\\n    }\\r\\n\\r\\n    // PRESERVED: Emergency functions\\r\\n    receive() external payable {\\r\\n        // Allow contract to receive ETH for CCIP fees\\r\\n    }\\r\\n\\r\\n    fallback() external payable {\\r\\n        // Allow contract to receive ETH for CCIP fees\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xf2e6b1536d7be220d95f8dd5af9f458819c238374caeb07db3ef542f259baf23\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a06040526032600a553480156200001657600080fd5b50604051620035bd380380620035bd833981016040819052620000399162000125565b82816001600160a01b0381166200006a57604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b6200007581620000b8565b50600180556001600160a01b03908116608052600880549482166001600160a01b031995861617905560098054939091169290931691909117909155506200016f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b80516001600160a01b03811681146200012057600080fd5b919050565b6000806000606084860312156200013b57600080fd5b620001468462000108565b9250620001566020850162000108565b9150620001666040850162000108565b90509250925092565b6080516134326200018b6000396000611bd901526134326000f3fe6080604052600436106102115760003560e01c80637cf9636711610117578063baaa61be116100a5578063e55dc4e61161006c578063e55dc4e61461085e578063f2fde38b1461087e578063f9c3f3321461089e578063fb5c3312146108ce578063fd47ea0f146108ee57005b8063baaa61be146107dc578063bc063e1a146107fc578063cfe4184014610812578063dd6e973214610832578063e1f1c4a71461084857005b80638da5cb5b116100e95780638da5cb5b146106a35780638e18cdfc146106c157806399cf7c92146106e15780639c922d2a14610701578063a3c6aba2146107bc57005b80637cf963671461061e5780638456cb591461063e57806385572ffb1461065357806388ba16ab1461067357005b80634534c8031161019f578063615c8b6411610166578063615c8b64146103ef57806368c4ac26146105505780636d6f035d146105c9578063715018a6146105e957806376319190146105fe57005b80634534c8031461034b5780634a546f671461036b5780634d9fb4f61461038b57806357970e93146103ab5780635c975abb146103cb57005b806321002fb0116101e357806321002fb0146102b657806322b113e8146102d657806336d99230146102e95780633f4ba83a1461031657806342e02fb41461032b57005b80630398c9411461021a5780630de229841461023e57806314205e28146102765780631af6ee721461029657005b3661021857005b005b34801561022657600080fd5b50600b545b6040519081526020015b60405180910390f35b34801561024a57600080fd5b5060085461025e906001600160a01b031681565b6040516001600160a01b039091168152602001610235565b34801561028257600080fd5b5061022b610291366004612c06565b61090e565b3480156102a257600080fd5b506102186102b1366004612c23565b61097f565b3480156102c257600080fd5b506102186102d1366004612c23565b610b53565b6102186102e4366004612c58565b610bbf565b3480156102f557600080fd5b50610309610304366004612c06565b611283565b6040516102359190612cbc565b34801561032257600080fd5b506102186115aa565b34801561033757600080fd5b50610218610346366004612d00565b6115bc565b34801561035757600080fd5b5061022b610366366004612c23565b6115dd565b34801561037757600080fd5b50610309610386366004612c06565b6115fe565b34801561039757600080fd5b506102186103a6366004612d2c565b611934565b3480156103b757600080fd5b5060095461025e906001600160a01b031681565b3480156103d757600080fd5b5060025460ff165b6040519015158152602001610235565b3480156103fb57600080fd5b5061054361040a366004612c23565b604080516101a081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c0810182905260e0810182905261010081018290526101208101829052610140810182905261016081018290526101808101919091525060009081526003602081815260409283902083516101a08101855281546001600160a01b0390811682526001830154811693820193909352600282015494810194909452918201548116606084015260048201549081166080840152600160a01b90046001600160401b031660a0830152600581015460c0830152600681015460ff808216151560e0850152610100918290048116151591840191909152600782015461012084015260088201546101408401526009820154161515610160830152600a015461018082015290565b6040516102359190612d47565b34801561055c57600080fd5b5061059f61056b366004612c06565b60046020526000908152604090208054600182015460029092015460ff8216926101009092046001600160a01b0316919084565b6040805194151585526001600160a01b039093166020850152918301526060820152608001610235565b3480156105d557600080fd5b506102186105e4366004612d00565b61195d565b3480156105f557600080fd5b506102186119a0565b34801561060a57600080fd5b50610218610619366004612c06565b6119b2565b34801561062a57600080fd5b5061022b610639366004612e3a565b6119ec565b34801561064a57600080fd5b50610218611bbe565b34801561065f57600080fd5b5061021861066e366004612e79565b611bce565b34801561067f57600080fd5b506103df61068e366004612c23565b60076020526000908152604090205460ff1681565b3480156106af57600080fd5b506000546001600160a01b031661025e565b3480156106cd57600080fd5b506102186106dc366004612eb3565b611d90565b3480156106ed57600080fd5b506103096106fc366004612c06565b611f97565b34801561070d57600080fd5b506107a361071c366004612c23565b600360208190526000918252604090912080546001820154600283015493830154600484015460058501546006860154600787015460088801546009890154600a909901546001600160a01b039889169a9789169997989687169796861696600160a01b9096046001600160401b03169560ff80861695610100900481169493929116908d565b6040516102359d9c9b9a99989796959493929190612ef9565b3480156107c857600080fd5b5061022b6107d7366004612d00565b612003565b3480156107e857600080fd5b5061022b6107f7366004612f86565b612034565b34801561080857600080fd5b5061022b6103e881565b34801561081e57600080fd5b5061030961082d366004612c06565b6122ac565b34801561083e57600080fd5b5061022b600a5481565b34801561085457600080fd5b5061022b61271081565b34801561086a57600080fd5b50610218610879366004612fbf565b6125ae565b34801561088a57600080fd5b50610218610899366004612c06565b6125ca565b3480156108aa57600080fd5b506103df6108b9366004612d2c565b60056020526000908152604090205460ff1681565b3480156108da57600080fd5b506102186108e9366004612d2c565b612605565b3480156108fa57600080fd5b50610218610909366004612eb3565b612631565b6040516370a0823160e01b81523060048201526000906001600160a01b038316906370a0823190602401602060405180830381865afa158015610955573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906109799190612fdf565b92915050565b6109876126be565b61098f6126e8565b600081815260036020526040902080546001600160a01b03166109c557604051630638c3db60e41b815260040160405180910390fd5b80546001600160a01b031633146109ef5760405163b8d4540960e01b815260040160405180910390fd5b600681015460ff1615610a155760405163fe507afd60e01b815260040160405180910390fd5b6006810154610100900460ff1615610a4057604051630d29bf7160e41b815260040160405180910390fd5b60068101805461ff001916610100179055600a54600090610a639061271061300e565b600a548360020154610a759190613021565b610a7f9190613038565b90506000818360020154610a93919061305a565b6003840154909150610aaf906001600160a01b0316338361270c565b600883015460009015610af157506008830154604051339082156108fc029083906000818181858888f19350505050158015610aef573d6000803e3d6000fd5b505b6003840154604080518481526001600160a01b0390921660208301528101829052339086907f6b38b21c954a9f2a62cd6dd51fea9f5a9acb911637810617fed3cfee0a9d8f389060600160405180910390a350505050610b5060018055565b50565b610b5b61276b565b6103e8811115610b7e5760405163cd4e616760e01b815260040160405180910390fd5b600a5460408051918252602082018390527f528d9479e9f9889a87a3c30c7f7ba537e5e59c4c85a37733b16e57c62df61302910160405180910390a1600a55565b610bc76126be565b610bcf6126e8565b6001600160a01b038516610bf657604051634e46966960e11b815260040160405180910390fd5b83600003610c175760405163162908e360e11b815260040160405180910390fd5b6001600160a01b03831660009081526004602052604090205460ff16610c5057604051633dd1b30560e01b815260040160405180910390fd5b6001600160a01b03821660009081526004602052604090205460ff16610c8957604051633dd1b30560e01b815260040160405180910390fd5b6001600160401b03811660009081526005602052604090205460ff16610cc25760405163f21c9f0760e01b815260040160405180910390fd5b6001600160a01b038084166000908152600460209081526040918290208251608081018452815460ff8116151582526101009004909416918401919091526001810154918301829052600201546060830152851015610d3457604051632fcd1a0f60e01b815260040160405180910390fd5b8060600151851115610d595760405163ea5d71ed60e01b815260040160405180910390fd5b6000612710600a5487610d6c9190613021565b610d769190613038565b90506000610d84828861300e565b90506000610d928787612034565b90506000670de0b6b3a7640000610da98385613021565b610db39190613038565b6040516370a0823160e01b81523060048201529091506000906001600160a01b038916906370a0823190602401602060405180830381865afa158015610dfd573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610e219190612fdf565b905081811015610e445760405163786e0a9960e01b815260040160405180910390fd5b610e596001600160a01b038a1633308d612798565b600046886001600160401b031614158015610e7f5750876001600160401b0316610afa14155b90508015610eb9576000610e94898e866119ec565b905080341015610eb757604051635a53faeb60e11b815260040160405180910390fd5b505b6040516bffffffffffffffffffffffff1933606090811b821660208401528e811b82166034840152604883018e90528c811b821660688401528b901b16607c8201526001600160c01b031960c08a901b1660908201524260988201524360b882015260009060d801604051602081830303815290604052805190602001209050604051806101a00160405280336001600160a01b031681526020018e6001600160a01b031681526020018781526020018c6001600160a01b031681526020018b6001600160a01b031681526020018a6001600160401b0316815260200142815260200160011515815260200160001515815260200186815260200134815260200183151581526020016000801b8152506003600083815260200190815260200160002060008201518160000160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060208201518160010160006101000a8154816001600160a01b0302191690836001600160a01b031602179055506040820151816002015560608201518160030160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060808201518160040160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060a08201518160040160146101000a8154816001600160401b0302191690836001600160401b0316021790555060c0820151816005015560e08201518160060160006101000a81548160ff0219169083151502179055506101008201518160060160016101000a81548160ff021916908315150217905550610120820151816007015561014082015181600801556101608201518160090160006101000a81548160ff02191690831515021790555061018082015181600a0155905050600b81908060018154018082558091505060019003906000526020600020016000909190919091505560066000336001600160a01b03166001600160a01b031681526020019081526020016000208190806001815401808255809150506001900390600052602060002001600090919091909150558c6001600160a01b0316336001600160a01b0316827f01f80623c728c496756bfea4bee3081787fe87bbb66a22e65e2853c091998224898f8f8f60405161123f94939291909384526001600160a01b039283166020850152911660408301526001600160401b0316606082015260800190565b60405180910390a4811561125f5761125a818e868d8d6127d1565b61126b565b61126b818e868d612a14565b505050505050505061127c60018055565b5050505050565b6001600160a01b03811660009081526006602090815260408083208054825181850281018501909352808352606094938301828280156112e257602002820191906000526020600020905b8154815260200190600101908083116112ce575b505050505090506000805b82518110156114055760006003600085848151811061130e5761130e61306d565b602090810291909101810151825281810192909252604090810160002081516101a08101835281546001600160a01b039081168252600183015481169482019490945260028201549281019290925260038101548316606083015260048101549283166080830152600160a01b9092046001600160401b031660a0820152600582015460c0820152600682015460ff808216151560e08401526101009182900481161515918301829052600784015461012084015260088401546101408401526009840154161515610160830152600a9092015461018082015291506113fc57826113f881613083565b9350505b506001016112ed565b506000816001600160401b038111156114205761142061309c565b604051908082528060200260200182016040528015611449578160200160208202803683370190505b5090506000805b845181101561159f576000600360008784815181106114715761147161306d565b602090810291909101810151825281810192909252604090810160002081516101a08101835281546001600160a01b039081168252600183015481169482019490945260028201549281019290925260038101548316606083015260048101549283166080830152600160a01b9092046001600160401b031660a0820152600582015460c0820152600682015460ff808216151560e08401526101009182900481161515918301829052600784015461012084015260088401546101408401526009840154161515610160830152600a909201546101808201529150611596578582815181106115635761156361306d565b602002602001015184848151811061157d5761157d61306d565b60209081029190910101528261159281613083565b9350505b50600101611450565b509095945050505050565b6115b261276b565b6115ba612a7e565b565b6115c461276b565b6115d96001600160a01b038316333084612798565b5050565b600b81815481106115ed57600080fd5b600091825260209091200154905081565b60606000805b600b5481101561175457600060036000600b84815481106116275761162761306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b039081168083526001840154821695830195909552600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250861614806117295750846001600160a01b031681602001516001600160a01b0316145b80156117385750806101000151155b1561174b578261174781613083565b9350505b50600101611604565b506000816001600160401b0381111561176f5761176f61309c565b604051908082528060200260200182016040528015611798578160200160208202803683370190505b5090506000805b600b5481101561192a57600060036000600b84815481106117c2576117c261306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b039081168083526001840154821695830195909552600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250881614806118c45750866001600160a01b031681602001516001600160a01b0316145b80156118d35750806101000151155b1561192157600b82815481106118eb576118eb61306d565b90600052602060002001548484815181106119085761190861306d565b60209081029190910101528261191d81613083565b9350505b5060010161179f565b5090949350505050565b61193c61276b565b6001600160401b03166000908152600560205260409020805460ff19169055565b61196561276b565b6040516001600160a01b0383169082156108fc029083906000818181858888f1935050505015801561199b573d6000803e3d6000fd5b505050565b6119a861276b565b6115ba6000612ad0565b6119ba61276b565b6001600160a01b0316600090815260046020526040812080546001600160a81b03191681556001810182905560020155565b600046846001600160401b03161480611a0f5750836001600160401b0316610afa145b15611a1c57506000611bb7565b6001600160401b03841660009081526005602052604090205460ff16611a4457506000611bb7565b604080516001808252818301909252600091816020015b6040805180820190915260008082526020820152815260200190600190039081611a5b579050509050604051806040016040528060006001600160a01b031681526020018481525081600081518110611ab657611ab661306d565b60209081029190910101526040805160a081019091526001600160a01b03851660c08201526000908060e0810160405160208183030381529060405281526020018686604051602001611b0a9291906130b2565b60408051601f198184030181529181529082526020828101869052600083830181905282519182018352815260609092019190915260085490516320487ded60e01b81529192506001600160a01b0316906320487ded90611b719089908590600401613140565b602060405180830381865afa158015611b8e573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611bb29190612fdf565b925050505b9392505050565b611bc661276b565b6115ba612b20565b336001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001614611c5e5760405162461bcd60e51b815260206004820152602a60248201527f4d6f636b4343495052656365697665723a2063616c6c6572206973206e6f74206044820152693a3432903937baba32b960b11b60648201526084015b60405180910390fd5b803560009081526007602052604090205460ff1615611c9057604051637b04260960e01b815260040160405180910390fd5b80356000908152600760205260408120805460ff1916600117905580808080611cbc606087018761321c565b810190611cc99190613269565b60408051808201909152600f81526e2224a922a1aa2faa2920a729a322a960891b602091820152855190860120949950929750909550935091507f6b727c208f0ffc5cff4183d92b70c7011f1fdb9bb6524b310999825144f0220d01611d8857611d3d6001600160a01b038216848461270c565b604080518381526001600160a01b03838116602083015285169188359187917f25ef1c4d6cc99266d3f60a9ec6daa3a1e96430c986addbe18ab277ae3398e165910160405180910390a45b505050505050565b611d986126be565b611da06126e8565b6001600160a01b03841660009081526004602052604090205460ff16611dd957604051633dd1b30560e01b815260040160405180910390fd5b6001600160a01b03831660009081526004602052604090205460ff16611e1257604051633dd1b30560e01b815260040160405180910390fd5b81600003611e335760405163162908e360e11b815260040160405180910390fd5b6000611e3f8585612034565b90506000670de0b6b3a7640000611e568386613021565b611e609190613038565b905082811015611e835760405163428637bb60e11b815260040160405180910390fd5b6040516370a0823160e01b81523060048201526000906001600160a01b038716906370a0823190602401602060405180830381865afa158015611eca573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611eee9190612fdf565b905081811015611f115760405163786e0a9960e01b815260040160405180910390fd5b611f266001600160a01b038816333088612798565b611f3a6001600160a01b038716338461270c565b60408051868152602081018490526001600160a01b0380891692908a169133917fd36cc53ba71bc76a3db3364981f5296dd4ca5eba0e8c89874f2170515bd20d24910160405180910390a4505050611f9160018055565b50505050565b6001600160a01b038116600090815260066020908152604091829020805483518184028101840190945280845260609392830182828015611ff757602002820191906000526020600020905b815481526020019060010190808311611fe3575b50505050509050919050565b6006602052816000526040600020818154811061201f57600080fd5b90600052602060002001600091509150505481565b6001600160a01b038083166000908152600460208181526040808420815160808082018452825460ff80821615158452610100918290048a16848801908152600180870154868901526002968701546060808801919091528d8d168c52998952878b2088519586018952805493841615158652939092048b16978401979097528101549482019490945292909101549382019390935290519293919290911661211f5760405162461bcd60e51b815260206004820152601e60248201527f50726963652066656564206e6f742073657420666f7220746f6b656e204100006044820152606401611c55565b60208101516001600160a01b03166121795760405162461bcd60e51b815260206004820152601e60248201527f50726963652066656564206e6f742073657420666f7220746f6b656e204200006044820152606401611c55565b600082602001516001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa1580156121bd573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906121e1919061335c565b505050915050600082602001516001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa15801561222b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061224f919061335c565b505050915050600082131580612266575060008113155b156122845760405163f45e167b60e01b815260040160405180910390fd5b8061229783670de0b6b3a7640000613021565b6122a19190613038565b979650505050505050565b60606000805b600b548110156123ed57600060036000600b84815481106122d5576122d561306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b03908116825260018301548116948201859052600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a90910154610180820152925086161480156123c257508060e001515b80156123d15750806101000151155b156123e457826123e081613083565b9350505b506001016122b2565b506000816001600160401b038111156124085761240861309c565b604051908082528060200260200182016040528015612431578160200160208202803683370190505b5090506000805b600b5481101561192a57600060036000600b848154811061245b5761245b61306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b03908116825260018301548116948201859052600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250881614801561254857508060e001515b80156125575750806101000151155b156125a557600b828154811061256f5761256f61306d565b906000526020600020015484848151811061258c5761258c61306d565b6020908102919091010152826125a181613083565b9350505b50600101612438565b6125b661276b565b61199b6001600160a01b038416838361270c565b6125d261276b565b6001600160a01b0381166125fc57604051631e4fbdf760e01b815260006004820152602401611c55565b610b5081612ad0565b61260d61276b565b6001600160401b03166000908152600560205260409020805460ff19166001179055565b61263961276b565b6040805160808101825260018082526001600160a01b0395861660208084019182528385019687526060840195865297871660009081526004909852929096209051815492516001600160a81b0319909316901515610100600160a81b0319161761010092909516919091029390931783559051928201929092559051600290910155565b6002600154036126e157604051633ee5aeb560e01b815260040160405180910390fd5b6002600155565b60025460ff16156115ba5760405163d93c066560e01b815260040160405180910390fd5b6040516001600160a01b0383811660248301526044820183905261199b91859182169063a9059cbb906064015b604051602081830303815290604052915060e01b6020820180516001600160e01b038381831617835250505050612b5d565b6000546001600160a01b031633146115ba5760405163118cdaa760e01b8152336004820152602401611c55565b6040516001600160a01b038481166024830152838116604483015260648201839052611f919186918216906323b872dd90608401612739565b604080516001808252818301909252600091816020015b60408051808201909152600080825260208201528152602001906001900390816127e85790505090506040518060400160405280846001600160a01b0316815260200185815250816000815181106128425761284261306d565b60209081029190910101526040805160a081019091526001600160a01b03861660c08201526000908060e0810160405160208183030381529060405281526020018888888860405160200161289a94939291906133a0565b60408051808303601f19018152918152908252602080830186905260008383018190528251918201835280825260609093015260085490516396f4e9f960e01b815292935090916001600160a01b03909116906396f4e9f99034906129059088908790600401613140565b60206040518083038185885af1158015612923573d6000803e3d6000fd5b50505050506040513d601f19601f820116820180604052508101906129489190612fdf565b600089815260036020908152604091829020600a0183905581516001600160a01b038b811682529181018a90529088168183015290519192506001600160401b0386169183918b917f71589e25954bf256457dbad8763ce0a2cf812e563894df1592cfc30f2f082e8b9181900360600190a4604080518781526001600160a01b0387811660208301526001828401529151918916918a917f9dd1123caed3db2f5f4cb3f790e7c644de9839e42a94981cc88e8e88f1300f2b919081900360600190a35050505050505050565b612a286001600160a01b038216848461270c565b604080518381526001600160a01b03838116602083015260008284015291519185169186917f9dd1123caed3db2f5f4cb3f790e7c644de9839e42a94981cc88e8e88f1300f2b919081900360600190a350505050565b612a86612bce565b6002805460ff191690557f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa335b6040516001600160a01b03909116815260200160405180910390a1565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b612b286126e8565b6002805460ff191660011790557f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258612ab33390565b600080602060008451602086016000885af180612b80576040513d6000823e3d81fd5b50506000513d91508115612b98578060011415612ba5565b6001600160a01b0384163b155b15611f9157604051635274afe760e01b81526001600160a01b0385166004820152602401611c55565b60025460ff166115ba57604051638dfc202b60e01b815260040160405180910390fd5b6001600160a01b0381168114610b5057600080fd5b600060208284031215612c1857600080fd5b8135611bb781612bf1565b600060208284031215612c3557600080fd5b5035919050565b80356001600160401b0381168114612c5357600080fd5b919050565b600080600080600060a08688031215612c7057600080fd5b8535612c7b81612bf1565b9450602086013593506040860135612c9281612bf1565b92506060860135612ca281612bf1565b9150612cb060808701612c3c565b90509295509295909350565b6020808252825182820181905260009190848201906040850190845b81811015612cf457835183529284019291840191600101612cd8565b50909695505050505050565b60008060408385031215612d1357600080fd5b8235612d1e81612bf1565b946020939093013593505050565b600060208284031215612d3e57600080fd5b611bb782612c3c565b81516001600160a01b031681526101a081016020830151612d7360208401826001600160a01b03169052565b50604083015160408301526060830151612d9860608401826001600160a01b03169052565b506080830151612db360808401826001600160a01b03169052565b5060a0830151612dce60a08401826001600160401b03169052565b5060c083015160c083015260e0830151612dec60e084018215159052565b5061010083810151151590830152610120808401519083015261014080840151908301526101608084015115159083015261018092830151929091019190915290565b8035612c5381612bf1565b600080600060608486031215612e4f57600080fd5b612e5884612c3c565b92506020840135612e6881612bf1565b929592945050506040919091013590565b600060208284031215612e8b57600080fd5b81356001600160401b03811115612ea157600080fd5b820160a08185031215611bb757600080fd5b60008060008060808587031215612ec957600080fd5b8435612ed481612bf1565b93506020850135612ee481612bf1565b93969395505050506040820135916060013590565b6001600160a01b038e811682528d81166020830152604082018d90528b811660608301528a1660808201526001600160401b03891660a082015260c0810188905286151560e08201526101a081018615156101008301528561012083015284610140830152612f6d61016083018515159052565b826101808301529e9d5050505050505050505050505050565b60008060408385031215612f9957600080fd5b8235612fa481612bf1565b91506020830135612fb481612bf1565b809150509250929050565b600080600060608486031215612fd457600080fd5b8335612e5881612bf1565b600060208284031215612ff157600080fd5b5051919050565b634e487b7160e01b600052601160045260246000fd5b8181038181111561097957610979612ff8565b808202811582820484141761097957610979612ff8565b60008261305557634e487b7160e01b600052601260045260246000fd5b500490565b8082018082111561097957610979612ff8565b634e487b7160e01b600052603260045260246000fd5b60006001820161309557613095612ff8565b5060010190565b634e487b7160e01b600052604160045260246000fd5b6060815260006130e160608301600f81526e2224a922a1aa2faa2920a729a322a960891b602082015260400190565b6001600160a01b03949094166020830152506040015290565b6000815180845260005b8181101561312057602081850181015186830182015201613104565b506000602082860101526020601f19601f83011685010191505092915050565b600060406001600160401b03851683526020604081850152845160a0604086015261316e60e08601826130fa565b905081860151603f198087840301606088015261318b83836130fa565b6040890151888203830160808a01528051808352908601945060009350908501905b808410156131df57845180516001600160a01b03168352860151868301529385019360019390930192908601906131ad565b5060608901516001600160a01b031660a08901526080890151888203830160c08a0152955061320e81876130fa565b9a9950505050505050505050565b6000808335601e1984360301811261323357600080fd5b8301803591506001600160401b0382111561324d57600080fd5b60200191503681900382131561326257600080fd5b9250929050565b600080600080600060a0868803121561328157600080fd5b85356001600160401b038082111561329857600080fd5b818801915088601f8301126132ac57600080fd5b8135818111156132be576132be61309c565b604051601f8201601f19908116603f011681019083821181831017156132e6576132e661309c565b816040528281528b60208487010111156132ff57600080fd5b8260208601602083013760006020848301015280995050505050506020860135935061332d60408701612e2f565b925060608601359150612cb060808701612e2f565b805169ffffffffffffffffffff81168114612c5357600080fd5b600080600080600060a0868803121561337457600080fd5b61337d86613342565b9450602086015193506040860151925060608601519150612cb060808701613342565b60a0815260006133cf60a08301600f81526e2224a922a1aa2faa2920a729a322a960891b602082015260400190565b6020830196909652506001600160a01b03938416604082015260608101929092529091166080909101529056fea26469706673582212201b6137c9fa5ff4bcd9a580348290973640837d34ee6365d2491bf184c920fc1564736f6c63430008180033",
+  "deployedBytecode": "0x6080604052600436106102115760003560e01c80637cf9636711610117578063baaa61be116100a5578063e55dc4e61161006c578063e55dc4e61461085e578063f2fde38b1461087e578063f9c3f3321461089e578063fb5c3312146108ce578063fd47ea0f146108ee57005b8063baaa61be146107dc578063bc063e1a146107fc578063cfe4184014610812578063dd6e973214610832578063e1f1c4a71461084857005b80638da5cb5b116100e95780638da5cb5b146106a35780638e18cdfc146106c157806399cf7c92146106e15780639c922d2a14610701578063a3c6aba2146107bc57005b80637cf963671461061e5780638456cb591461063e57806385572ffb1461065357806388ba16ab1461067357005b80634534c8031161019f578063615c8b6411610166578063615c8b64146103ef57806368c4ac26146105505780636d6f035d146105c9578063715018a6146105e957806376319190146105fe57005b80634534c8031461034b5780634a546f671461036b5780634d9fb4f61461038b57806357970e93146103ab5780635c975abb146103cb57005b806321002fb0116101e357806321002fb0146102b657806322b113e8146102d657806336d99230146102e95780633f4ba83a1461031657806342e02fb41461032b57005b80630398c9411461021a5780630de229841461023e57806314205e28146102765780631af6ee721461029657005b3661021857005b005b34801561022657600080fd5b50600b545b6040519081526020015b60405180910390f35b34801561024a57600080fd5b5060085461025e906001600160a01b031681565b6040516001600160a01b039091168152602001610235565b34801561028257600080fd5b5061022b610291366004612c06565b61090e565b3480156102a257600080fd5b506102186102b1366004612c23565b61097f565b3480156102c257600080fd5b506102186102d1366004612c23565b610b53565b6102186102e4366004612c58565b610bbf565b3480156102f557600080fd5b50610309610304366004612c06565b611283565b6040516102359190612cbc565b34801561032257600080fd5b506102186115aa565b34801561033757600080fd5b50610218610346366004612d00565b6115bc565b34801561035757600080fd5b5061022b610366366004612c23565b6115dd565b34801561037757600080fd5b50610309610386366004612c06565b6115fe565b34801561039757600080fd5b506102186103a6366004612d2c565b611934565b3480156103b757600080fd5b5060095461025e906001600160a01b031681565b3480156103d757600080fd5b5060025460ff165b6040519015158152602001610235565b3480156103fb57600080fd5b5061054361040a366004612c23565b604080516101a081018252600080825260208201819052918101829052606081018290526080810182905260a0810182905260c0810182905260e0810182905261010081018290526101208101829052610140810182905261016081018290526101808101919091525060009081526003602081815260409283902083516101a08101855281546001600160a01b0390811682526001830154811693820193909352600282015494810194909452918201548116606084015260048201549081166080840152600160a01b90046001600160401b031660a0830152600581015460c0830152600681015460ff808216151560e0850152610100918290048116151591840191909152600782015461012084015260088201546101408401526009820154161515610160830152600a015461018082015290565b6040516102359190612d47565b34801561055c57600080fd5b5061059f61056b366004612c06565b60046020526000908152604090208054600182015460029092015460ff8216926101009092046001600160a01b0316919084565b6040805194151585526001600160a01b039093166020850152918301526060820152608001610235565b3480156105d557600080fd5b506102186105e4366004612d00565b61195d565b3480156105f557600080fd5b506102186119a0565b34801561060a57600080fd5b50610218610619366004612c06565b6119b2565b34801561062a57600080fd5b5061022b610639366004612e3a565b6119ec565b34801561064a57600080fd5b50610218611bbe565b34801561065f57600080fd5b5061021861066e366004612e79565b611bce565b34801561067f57600080fd5b506103df61068e366004612c23565b60076020526000908152604090205460ff1681565b3480156106af57600080fd5b506000546001600160a01b031661025e565b3480156106cd57600080fd5b506102186106dc366004612eb3565b611d90565b3480156106ed57600080fd5b506103096106fc366004612c06565b611f97565b34801561070d57600080fd5b506107a361071c366004612c23565b600360208190526000918252604090912080546001820154600283015493830154600484015460058501546006860154600787015460088801546009890154600a909901546001600160a01b039889169a9789169997989687169796861696600160a01b9096046001600160401b03169560ff80861695610100900481169493929116908d565b6040516102359d9c9b9a99989796959493929190612ef9565b3480156107c857600080fd5b5061022b6107d7366004612d00565b612003565b3480156107e857600080fd5b5061022b6107f7366004612f86565b612034565b34801561080857600080fd5b5061022b6103e881565b34801561081e57600080fd5b5061030961082d366004612c06565b6122ac565b34801561083e57600080fd5b5061022b600a5481565b34801561085457600080fd5b5061022b61271081565b34801561086a57600080fd5b50610218610879366004612fbf565b6125ae565b34801561088a57600080fd5b50610218610899366004612c06565b6125ca565b3480156108aa57600080fd5b506103df6108b9366004612d2c565b60056020526000908152604090205460ff1681565b3480156108da57600080fd5b506102186108e9366004612d2c565b612605565b3480156108fa57600080fd5b50610218610909366004612eb3565b612631565b6040516370a0823160e01b81523060048201526000906001600160a01b038316906370a0823190602401602060405180830381865afa158015610955573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906109799190612fdf565b92915050565b6109876126be565b61098f6126e8565b600081815260036020526040902080546001600160a01b03166109c557604051630638c3db60e41b815260040160405180910390fd5b80546001600160a01b031633146109ef5760405163b8d4540960e01b815260040160405180910390fd5b600681015460ff1615610a155760405163fe507afd60e01b815260040160405180910390fd5b6006810154610100900460ff1615610a4057604051630d29bf7160e41b815260040160405180910390fd5b60068101805461ff001916610100179055600a54600090610a639061271061300e565b600a548360020154610a759190613021565b610a7f9190613038565b90506000818360020154610a93919061305a565b6003840154909150610aaf906001600160a01b0316338361270c565b600883015460009015610af157506008830154604051339082156108fc029083906000818181858888f19350505050158015610aef573d6000803e3d6000fd5b505b6003840154604080518481526001600160a01b0390921660208301528101829052339086907f6b38b21c954a9f2a62cd6dd51fea9f5a9acb911637810617fed3cfee0a9d8f389060600160405180910390a350505050610b5060018055565b50565b610b5b61276b565b6103e8811115610b7e5760405163cd4e616760e01b815260040160405180910390fd5b600a5460408051918252602082018390527f528d9479e9f9889a87a3c30c7f7ba537e5e59c4c85a37733b16e57c62df61302910160405180910390a1600a55565b610bc76126be565b610bcf6126e8565b6001600160a01b038516610bf657604051634e46966960e11b815260040160405180910390fd5b83600003610c175760405163162908e360e11b815260040160405180910390fd5b6001600160a01b03831660009081526004602052604090205460ff16610c5057604051633dd1b30560e01b815260040160405180910390fd5b6001600160a01b03821660009081526004602052604090205460ff16610c8957604051633dd1b30560e01b815260040160405180910390fd5b6001600160401b03811660009081526005602052604090205460ff16610cc25760405163f21c9f0760e01b815260040160405180910390fd5b6001600160a01b038084166000908152600460209081526040918290208251608081018452815460ff8116151582526101009004909416918401919091526001810154918301829052600201546060830152851015610d3457604051632fcd1a0f60e01b815260040160405180910390fd5b8060600151851115610d595760405163ea5d71ed60e01b815260040160405180910390fd5b6000612710600a5487610d6c9190613021565b610d769190613038565b90506000610d84828861300e565b90506000610d928787612034565b90506000670de0b6b3a7640000610da98385613021565b610db39190613038565b6040516370a0823160e01b81523060048201529091506000906001600160a01b038916906370a0823190602401602060405180830381865afa158015610dfd573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610e219190612fdf565b905081811015610e445760405163786e0a9960e01b815260040160405180910390fd5b610e596001600160a01b038a1633308d612798565b600046886001600160401b031614158015610e7f5750876001600160401b0316610afa14155b90508015610eb9576000610e94898e866119ec565b905080341015610eb757604051635a53faeb60e11b815260040160405180910390fd5b505b6040516bffffffffffffffffffffffff1933606090811b821660208401528e811b82166034840152604883018e90528c811b821660688401528b901b16607c8201526001600160c01b031960c08a901b1660908201524260988201524360b882015260009060d801604051602081830303815290604052805190602001209050604051806101a00160405280336001600160a01b031681526020018e6001600160a01b031681526020018781526020018c6001600160a01b031681526020018b6001600160a01b031681526020018a6001600160401b0316815260200142815260200160011515815260200160001515815260200186815260200134815260200183151581526020016000801b8152506003600083815260200190815260200160002060008201518160000160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060208201518160010160006101000a8154816001600160a01b0302191690836001600160a01b031602179055506040820151816002015560608201518160030160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060808201518160040160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060a08201518160040160146101000a8154816001600160401b0302191690836001600160401b0316021790555060c0820151816005015560e08201518160060160006101000a81548160ff0219169083151502179055506101008201518160060160016101000a81548160ff021916908315150217905550610120820151816007015561014082015181600801556101608201518160090160006101000a81548160ff02191690831515021790555061018082015181600a0155905050600b81908060018154018082558091505060019003906000526020600020016000909190919091505560066000336001600160a01b03166001600160a01b031681526020019081526020016000208190806001815401808255809150506001900390600052602060002001600090919091909150558c6001600160a01b0316336001600160a01b0316827f01f80623c728c496756bfea4bee3081787fe87bbb66a22e65e2853c091998224898f8f8f60405161123f94939291909384526001600160a01b039283166020850152911660408301526001600160401b0316606082015260800190565b60405180910390a4811561125f5761125a818e868d8d6127d1565b61126b565b61126b818e868d612a14565b505050505050505061127c60018055565b5050505050565b6001600160a01b03811660009081526006602090815260408083208054825181850281018501909352808352606094938301828280156112e257602002820191906000526020600020905b8154815260200190600101908083116112ce575b505050505090506000805b82518110156114055760006003600085848151811061130e5761130e61306d565b602090810291909101810151825281810192909252604090810160002081516101a08101835281546001600160a01b039081168252600183015481169482019490945260028201549281019290925260038101548316606083015260048101549283166080830152600160a01b9092046001600160401b031660a0820152600582015460c0820152600682015460ff808216151560e08401526101009182900481161515918301829052600784015461012084015260088401546101408401526009840154161515610160830152600a9092015461018082015291506113fc57826113f881613083565b9350505b506001016112ed565b506000816001600160401b038111156114205761142061309c565b604051908082528060200260200182016040528015611449578160200160208202803683370190505b5090506000805b845181101561159f576000600360008784815181106114715761147161306d565b602090810291909101810151825281810192909252604090810160002081516101a08101835281546001600160a01b039081168252600183015481169482019490945260028201549281019290925260038101548316606083015260048101549283166080830152600160a01b9092046001600160401b031660a0820152600582015460c0820152600682015460ff808216151560e08401526101009182900481161515918301829052600784015461012084015260088401546101408401526009840154161515610160830152600a909201546101808201529150611596578582815181106115635761156361306d565b602002602001015184848151811061157d5761157d61306d565b60209081029190910101528261159281613083565b9350505b50600101611450565b509095945050505050565b6115b261276b565b6115ba612a7e565b565b6115c461276b565b6115d96001600160a01b038316333084612798565b5050565b600b81815481106115ed57600080fd5b600091825260209091200154905081565b60606000805b600b5481101561175457600060036000600b84815481106116275761162761306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b039081168083526001840154821695830195909552600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250861614806117295750846001600160a01b031681602001516001600160a01b0316145b80156117385750806101000151155b1561174b578261174781613083565b9350505b50600101611604565b506000816001600160401b0381111561176f5761176f61309c565b604051908082528060200260200182016040528015611798578160200160208202803683370190505b5090506000805b600b5481101561192a57600060036000600b84815481106117c2576117c261306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b039081168083526001840154821695830195909552600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250881614806118c45750866001600160a01b031681602001516001600160a01b0316145b80156118d35750806101000151155b1561192157600b82815481106118eb576118eb61306d565b90600052602060002001548484815181106119085761190861306d565b60209081029190910101528261191d81613083565b9350505b5060010161179f565b5090949350505050565b61193c61276b565b6001600160401b03166000908152600560205260409020805460ff19169055565b61196561276b565b6040516001600160a01b0383169082156108fc029083906000818181858888f1935050505015801561199b573d6000803e3d6000fd5b505050565b6119a861276b565b6115ba6000612ad0565b6119ba61276b565b6001600160a01b0316600090815260046020526040812080546001600160a81b03191681556001810182905560020155565b600046846001600160401b03161480611a0f5750836001600160401b0316610afa145b15611a1c57506000611bb7565b6001600160401b03841660009081526005602052604090205460ff16611a4457506000611bb7565b604080516001808252818301909252600091816020015b6040805180820190915260008082526020820152815260200190600190039081611a5b579050509050604051806040016040528060006001600160a01b031681526020018481525081600081518110611ab657611ab661306d565b60209081029190910101526040805160a081019091526001600160a01b03851660c08201526000908060e0810160405160208183030381529060405281526020018686604051602001611b0a9291906130b2565b60408051601f198184030181529181529082526020828101869052600083830181905282519182018352815260609092019190915260085490516320487ded60e01b81529192506001600160a01b0316906320487ded90611b719089908590600401613140565b602060405180830381865afa158015611b8e573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611bb29190612fdf565b925050505b9392505050565b611bc661276b565b6115ba612b20565b336001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001614611c5e5760405162461bcd60e51b815260206004820152602a60248201527f4d6f636b4343495052656365697665723a2063616c6c6572206973206e6f74206044820152693a3432903937baba32b960b11b60648201526084015b60405180910390fd5b803560009081526007602052604090205460ff1615611c9057604051637b04260960e01b815260040160405180910390fd5b80356000908152600760205260408120805460ff1916600117905580808080611cbc606087018761321c565b810190611cc99190613269565b60408051808201909152600f81526e2224a922a1aa2faa2920a729a322a960891b602091820152855190860120949950929750909550935091507f6b727c208f0ffc5cff4183d92b70c7011f1fdb9bb6524b310999825144f0220d01611d8857611d3d6001600160a01b038216848461270c565b604080518381526001600160a01b03838116602083015285169188359187917f25ef1c4d6cc99266d3f60a9ec6daa3a1e96430c986addbe18ab277ae3398e165910160405180910390a45b505050505050565b611d986126be565b611da06126e8565b6001600160a01b03841660009081526004602052604090205460ff16611dd957604051633dd1b30560e01b815260040160405180910390fd5b6001600160a01b03831660009081526004602052604090205460ff16611e1257604051633dd1b30560e01b815260040160405180910390fd5b81600003611e335760405163162908e360e11b815260040160405180910390fd5b6000611e3f8585612034565b90506000670de0b6b3a7640000611e568386613021565b611e609190613038565b905082811015611e835760405163428637bb60e11b815260040160405180910390fd5b6040516370a0823160e01b81523060048201526000906001600160a01b038716906370a0823190602401602060405180830381865afa158015611eca573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611eee9190612fdf565b905081811015611f115760405163786e0a9960e01b815260040160405180910390fd5b611f266001600160a01b038816333088612798565b611f3a6001600160a01b038716338461270c565b60408051868152602081018490526001600160a01b0380891692908a169133917fd36cc53ba71bc76a3db3364981f5296dd4ca5eba0e8c89874f2170515bd20d24910160405180910390a4505050611f9160018055565b50505050565b6001600160a01b038116600090815260066020908152604091829020805483518184028101840190945280845260609392830182828015611ff757602002820191906000526020600020905b815481526020019060010190808311611fe3575b50505050509050919050565b6006602052816000526040600020818154811061201f57600080fd5b90600052602060002001600091509150505481565b6001600160a01b038083166000908152600460208181526040808420815160808082018452825460ff80821615158452610100918290048a16848801908152600180870154868901526002968701546060808801919091528d8d168c52998952878b2088519586018952805493841615158652939092048b16978401979097528101549482019490945292909101549382019390935290519293919290911661211f5760405162461bcd60e51b815260206004820152601e60248201527f50726963652066656564206e6f742073657420666f7220746f6b656e204100006044820152606401611c55565b60208101516001600160a01b03166121795760405162461bcd60e51b815260206004820152601e60248201527f50726963652066656564206e6f742073657420666f7220746f6b656e204200006044820152606401611c55565b600082602001516001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa1580156121bd573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906121e1919061335c565b505050915050600082602001516001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa15801561222b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061224f919061335c565b505050915050600082131580612266575060008113155b156122845760405163f45e167b60e01b815260040160405180910390fd5b8061229783670de0b6b3a7640000613021565b6122a19190613038565b979650505050505050565b60606000805b600b548110156123ed57600060036000600b84815481106122d5576122d561306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b03908116825260018301548116948201859052600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a90910154610180820152925086161480156123c257508060e001515b80156123d15750806101000151155b156123e457826123e081613083565b9350505b506001016122b2565b506000816001600160401b038111156124085761240861309c565b604051908082528060200260200182016040528015612431578160200160208202803683370190505b5090506000805b600b5481101561192a57600060036000600b848154811061245b5761245b61306d565b60009182526020808320909101548352828101939093526040918201902081516101a08101835281546001600160a01b03908116825260018301548116948201859052600283015493820193909352600382015483166060820152600482015480841660808301526001600160401b03600160a01b9091041660a0820152600582015460c0820152600682015460ff808216151560e0840152610100918290048116151591830191909152600783015461012083015260088301546101408301526009830154161515610160820152600a909101546101808201529250881614801561254857508060e001515b80156125575750806101000151155b156125a557600b828154811061256f5761256f61306d565b906000526020600020015484848151811061258c5761258c61306d565b6020908102919091010152826125a181613083565b9350505b50600101612438565b6125b661276b565b61199b6001600160a01b038416838361270c565b6125d261276b565b6001600160a01b0381166125fc57604051631e4fbdf760e01b815260006004820152602401611c55565b610b5081612ad0565b61260d61276b565b6001600160401b03166000908152600560205260409020805460ff19166001179055565b61263961276b565b6040805160808101825260018082526001600160a01b0395861660208084019182528385019687526060840195865297871660009081526004909852929096209051815492516001600160a81b0319909316901515610100600160a81b0319161761010092909516919091029390931783559051928201929092559051600290910155565b6002600154036126e157604051633ee5aeb560e01b815260040160405180910390fd5b6002600155565b60025460ff16156115ba5760405163d93c066560e01b815260040160405180910390fd5b6040516001600160a01b0383811660248301526044820183905261199b91859182169063a9059cbb906064015b604051602081830303815290604052915060e01b6020820180516001600160e01b038381831617835250505050612b5d565b6000546001600160a01b031633146115ba5760405163118cdaa760e01b8152336004820152602401611c55565b6040516001600160a01b038481166024830152838116604483015260648201839052611f919186918216906323b872dd90608401612739565b604080516001808252818301909252600091816020015b60408051808201909152600080825260208201528152602001906001900390816127e85790505090506040518060400160405280846001600160a01b0316815260200185815250816000815181106128425761284261306d565b60209081029190910101526040805160a081019091526001600160a01b03861660c08201526000908060e0810160405160208183030381529060405281526020018888888860405160200161289a94939291906133a0565b60408051808303601f19018152918152908252602080830186905260008383018190528251918201835280825260609093015260085490516396f4e9f960e01b815292935090916001600160a01b03909116906396f4e9f99034906129059088908790600401613140565b60206040518083038185885af1158015612923573d6000803e3d6000fd5b50505050506040513d601f19601f820116820180604052508101906129489190612fdf565b600089815260036020908152604091829020600a0183905581516001600160a01b038b811682529181018a90529088168183015290519192506001600160401b0386169183918b917f71589e25954bf256457dbad8763ce0a2cf812e563894df1592cfc30f2f082e8b9181900360600190a4604080518781526001600160a01b0387811660208301526001828401529151918916918a917f9dd1123caed3db2f5f4cb3f790e7c644de9839e42a94981cc88e8e88f1300f2b919081900360600190a35050505050505050565b612a286001600160a01b038216848461270c565b604080518381526001600160a01b03838116602083015260008284015291519185169186917f9dd1123caed3db2f5f4cb3f790e7c644de9839e42a94981cc88e8e88f1300f2b919081900360600190a350505050565b612a86612bce565b6002805460ff191690557f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa335b6040516001600160a01b03909116815260200160405180910390a1565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b612b286126e8565b6002805460ff191660011790557f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a258612ab33390565b600080602060008451602086016000885af180612b80576040513d6000823e3d81fd5b50506000513d91508115612b98578060011415612ba5565b6001600160a01b0384163b155b15611f9157604051635274afe760e01b81526001600160a01b0385166004820152602401611c55565b60025460ff166115ba57604051638dfc202b60e01b815260040160405180910390fd5b6001600160a01b0381168114610b5057600080fd5b600060208284031215612c1857600080fd5b8135611bb781612bf1565b600060208284031215612c3557600080fd5b5035919050565b80356001600160401b0381168114612c5357600080fd5b919050565b600080600080600060a08688031215612c7057600080fd5b8535612c7b81612bf1565b9450602086013593506040860135612c9281612bf1565b92506060860135612ca281612bf1565b9150612cb060808701612c3c565b90509295509295909350565b6020808252825182820181905260009190848201906040850190845b81811015612cf457835183529284019291840191600101612cd8565b50909695505050505050565b60008060408385031215612d1357600080fd5b8235612d1e81612bf1565b946020939093013593505050565b600060208284031215612d3e57600080fd5b611bb782612c3c565b81516001600160a01b031681526101a081016020830151612d7360208401826001600160a01b03169052565b50604083015160408301526060830151612d9860608401826001600160a01b03169052565b506080830151612db360808401826001600160a01b03169052565b5060a0830151612dce60a08401826001600160401b03169052565b5060c083015160c083015260e0830151612dec60e084018215159052565b5061010083810151151590830152610120808401519083015261014080840151908301526101608084015115159083015261018092830151929091019190915290565b8035612c5381612bf1565b600080600060608486031215612e4f57600080fd5b612e5884612c3c565b92506020840135612e6881612bf1565b929592945050506040919091013590565b600060208284031215612e8b57600080fd5b81356001600160401b03811115612ea157600080fd5b820160a08185031215611bb757600080fd5b60008060008060808587031215612ec957600080fd5b8435612ed481612bf1565b93506020850135612ee481612bf1565b93969395505050506040820135916060013590565b6001600160a01b038e811682528d81166020830152604082018d90528b811660608301528a1660808201526001600160401b03891660a082015260c0810188905286151560e08201526101a081018615156101008301528561012083015284610140830152612f6d61016083018515159052565b826101808301529e9d5050505050505050505050505050565b60008060408385031215612f9957600080fd5b8235612fa481612bf1565b91506020830135612fb481612bf1565b809150509250929050565b600080600060608486031215612fd457600080fd5b8335612e5881612bf1565b600060208284031215612ff157600080fd5b5051919050565b634e487b7160e01b600052601160045260246000fd5b8181038181111561097957610979612ff8565b808202811582820484141761097957610979612ff8565b60008261305557634e487b7160e01b600052601260045260246000fd5b500490565b8082018082111561097957610979612ff8565b634e487b7160e01b600052603260045260246000fd5b60006001820161309557613095612ff8565b5060010190565b634e487b7160e01b600052604160045260246000fd5b6060815260006130e160608301600f81526e2224a922a1aa2faa2920a729a322a960891b602082015260400190565b6001600160a01b03949094166020830152506040015290565b6000815180845260005b8181101561312057602081850181015186830182015201613104565b506000602082860101526020601f19601f83011685010191505092915050565b600060406001600160401b03851683526020604081850152845160a0604086015261316e60e08601826130fa565b905081860151603f198087840301606088015261318b83836130fa565b6040890151888203830160808a01528051808352908601945060009350908501905b808410156131df57845180516001600160a01b03168352860151868301529385019360019390930192908601906131ad565b5060608901516001600160a01b031660a08901526080890151888203830160c08a0152955061320e81876130fa565b9a9950505050505050505050565b6000808335601e1984360301811261323357600080fd5b8301803591506001600160401b0382111561324d57600080fd5b60200191503681900382131561326257600080fd5b9250929050565b600080600080600060a0868803121561328157600080fd5b85356001600160401b038082111561329857600080fd5b818801915088601f8301126132ac57600080fd5b8135818111156132be576132be61309c565b604051601f8201601f19908116603f011681019083821181831017156132e6576132e661309c565b816040528281528b60208487010111156132ff57600080fd5b8260208601602083013760006020848301015280995050505050506020860135935061332d60408701612e2f565b925060608601359150612cb060808701612e2f565b805169ffffffffffffffffffff81168114612c5357600080fd5b600080600080600060a0868803121561337457600080fd5b61337d86613342565b9450602086015193506040860151925060608601519150612cb060808701613342565b60a0815260006133cf60a08301600f81526e2224a922a1aa2faa2920a729a322a960891b602082015260400190565b6020830196909652506001600160a01b03938416604082015260608101929092529091166080909101529056fea26469706673582212201b6137c9fa5ff4bcd9a580348290973640837d34ee6365d2491bf184c920fc1564736f6c63430008180033",
+  "devdoc": {
+    "details": "Core contract for RemitX stablecoin-based remittance system with direct transfers WARNING: This uses mock CCIP contracts - Morph testnet does not have official Chainlink CCIP support",
+    "errors": {
+      "EnforcedPause()": [
+        {
+          "details": "The operation failed because the contract is paused."
+        }
+      ],
+      "ExpectedPause()": [
+        {
+          "details": "The operation failed because the contract is not paused."
+        }
+      ],
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ],
+      "ReentrancyGuardReentrantCall()": [
+        {
+          "details": "Unauthorized reentrant call."
+        }
+      ],
+      "SafeERC20FailedOperation(address)": [
+        {
+          "details": "An operation with an ERC-20 token failed."
+        }
+      ]
+    },
+    "events": {
+      "Paused(address)": {
+        "details": "Emitted when the pause is triggered by `account`."
+      },
+      "Unpaused(address)": {
+        "details": "Emitted when the pause is lifted by `account`."
+      }
+    },
+    "kind": "dev",
+    "methods": {
+      "createRemittance(address,uint256,address,address,uint64)": {
+        "params": {
+          "amount": "The amount to send",
+          "destinationChain": "The destination chain selector",
+          "recipient": "The recipient address",
+          "sourceToken": "The source token address",
+          "targetToken": "The target token address"
+        }
+      },
+      "deleteRemittance(bytes32)": {
+        "params": {
+          "remittanceId": "The remittance ID to delete"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "paused()": {
+        "details": "Returns true if the contract is paused, and false otherwise."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "title": "RemitXCore",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "ccipReceive((bytes32,uint64,bytes,bytes,(address,uint256)[]))": {
+        "notice": "FIXED: CCIP receive implementation with onlyRouter modifier"
+      },
+      "createRemittance(address,uint256,address,address,uint64)": {
+        "notice": "COMPLETELY REWRITTEN: Creates remittance with immediate direct transfer"
+      },
+      "deleteRemittance(bytes32)": {
+        "notice": "ENHANCED: Delete remittance - now only for failed transfers with full refund"
+      },
+      "fundContract(address,uint256)": {
+        "notice": "NEW: Emergency function to fund contract with tokens for direct transfers"
+      },
+      "getContractTokenBalance(address)": {
+        "notice": "NEW: Check contract token balance for liquidity"
+      },
+      "getExchangeRate(address,address)": {
+        "notice": "PRESERVED: Exchange rate calculation (unchanged)"
+      },
+      "getFee(uint64,address,uint256)": {
+        "notice": "ENHANCED: Calculate CCIP fee with token transfer support"
+      },
+      "getUserActiveRemittances(address)": {
+        "notice": "UPDATED: Get user's active remittances (only non-deleted, since all are completed)"
+      },
+      "getUserReceivedRemittances(address)": {
+        "notice": "NEW: Get remittances received by user (for \"Received\" tab)"
+      },
+      "swapTokens(address,address,uint256,uint256)": {
+        "notice": "PRESERVED: Token swapping functionality (unchanged)"
+      }
+    },
+    "notice": "Handles cross-border remittances with immediate token delivery using CCIP",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 8,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 928,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "_status",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 818,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "_paused",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_bool"
+      },
+      {
+        "astId": 1515,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "remittances",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_bytes32,t_struct(Remittance)1501_storage)"
+      },
+      {
+        "astId": 1520,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "supportedTokens",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_struct(TokenConfig)1510_storage)"
+      },
+      {
+        "astId": 1524,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "supportedChains",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_uint64,t_bool)"
+      },
+      {
+        "astId": 1529,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "userRemittances",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_mapping(t_address,t_array(t_bytes32)dyn_storage)"
+      },
+      {
+        "astId": 1533,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "processedMessages",
+        "offset": 0,
+        "slot": "7",
+        "type": "t_mapping(t_bytes32,t_bool)"
+      },
+      {
+        "astId": 1536,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "ccipRouter",
+        "offset": 0,
+        "slot": "8",
+        "type": "t_contract(MockCCIPRouter)1365"
+      },
+      {
+        "astId": 1538,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "linkToken",
+        "offset": 0,
+        "slot": "9",
+        "type": "t_address"
+      },
+      {
+        "astId": 1541,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "remittanceFee",
+        "offset": 0,
+        "slot": "10",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 1550,
+        "contract": "contracts/RemitXCore.sol:RemitXCore",
+        "label": "remittanceIds",
+        "offset": 0,
+        "slot": "11",
+        "type": "t_array(t_bytes32)dyn_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_bytes32)dyn_storage": {
+        "base": "t_bytes32",
+        "encoding": "dynamic_array",
+        "label": "bytes32[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_contract(MockCCIPRouter)1365": {
+        "encoding": "inplace",
+        "label": "contract MockCCIPRouter",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_array(t_bytes32)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bytes32[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_bytes32)dyn_storage"
+      },
+      "t_mapping(t_address,t_struct(TokenConfig)1510_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct RemitXCore.TokenConfig)",
+        "numberOfBytes": "32",
+        "value": "t_struct(TokenConfig)1510_storage"
+      },
+      "t_mapping(t_bytes32,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_bytes32,t_struct(Remittance)1501_storage)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => struct RemitXCore.Remittance)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Remittance)1501_storage"
+      },
+      "t_mapping(t_uint64,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_uint64",
+        "label": "mapping(uint64 => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_struct(Remittance)1501_storage": {
+        "encoding": "inplace",
+        "label": "struct RemitXCore.Remittance",
+        "members": [
+          {
+            "astId": 1476,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "sender",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 1478,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "recipient",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 1480,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "amount",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 1482,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "sourceToken",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_address"
+          },
+          {
+            "astId": 1484,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "targetToken",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_address"
+          },
+          {
+            "astId": 1486,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "destinationChain",
+            "offset": 20,
+            "slot": "4",
+            "type": "t_uint64"
+          },
+          {
+            "astId": 1488,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "timestamp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 1490,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "completed",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_bool"
+          },
+          {
+            "astId": 1492,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "deleted",
+            "offset": 1,
+            "slot": "6",
+            "type": "t_bool"
+          },
+          {
+            "astId": 1494,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "exchangeRate",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 1496,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "ccipFee",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 1498,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "isCrossChain",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_bool"
+          },
+          {
+            "astId": 1500,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "ccipMessageId",
+            "offset": 0,
+            "slot": "10",
+            "type": "t_bytes32"
+          }
+        ],
+        "numberOfBytes": "352"
+      },
+      "t_struct(TokenConfig)1510_storage": {
+        "encoding": "inplace",
+        "label": "struct RemitXCore.TokenConfig",
+        "members": [
+          {
+            "astId": 1503,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "isSupported",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool"
+          },
+          {
+            "astId": 1505,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "priceFeed",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 1507,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "minAmount",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 1509,
+            "contract": "contracts/RemitXCore.sol:RemitXCore",
+            "label": "maxAmount",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint64": {
+        "encoding": "inplace",
+        "label": "uint64",
+        "numberOfBytes": "8"
+      }
+    }
+  }
+}

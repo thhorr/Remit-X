@@ -1,0 +1,336 @@
+{
+  "address": "0x81B77F36971B9173cb49A7B17ea42F8a52eb3254",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "decimals_",
+          "type": "uint8"
+        },
+        {
+          "internalType": "string",
+          "name": "description_",
+          "type": "string"
+        },
+        {
+          "internalType": "int256",
+          "name": "initialPrice_",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "price",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint80",
+          "name": "round",
+          "type": "uint80"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "PriceUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "description",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLatestPrice",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint80",
+          "name": "_roundId",
+          "type": "uint80"
+        }
+      ],
+      "name": "getRoundData",
+      "outputs": [
+        {
+          "internalType": "uint80",
+          "name": "roundId",
+          "type": "uint80"
+        },
+        {
+          "internalType": "int256",
+          "name": "answer",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "updatedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint80",
+          "name": "answeredInRound",
+          "type": "uint80"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "latestRoundData",
+      "outputs": [
+        {
+          "internalType": "uint80",
+          "name": "roundId",
+          "type": "uint80"
+        },
+        {
+          "internalType": "int256",
+          "name": "answer",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "updatedAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint80",
+          "name": "answeredInRound",
+          "type": "uint80"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int256",
+          "name": "newPrice",
+          "type": "int256"
+        }
+      ],
+      "name": "updatePrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "version",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x625cf229d4ff9cfb1ac1342892d9f8d527d7cf15647189803e4f00727fde8732",
+  "receipt": {
+    "to": null,
+    "from": "0xbc3683737f55f9C6E37cD74d04F345c586C5a3aE",
+    "contractAddress": "0x81B77F36971B9173cb49A7B17ea42F8a52eb3254",
+    "transactionIndex": 0,
+    "gasUsed": "462285",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x72e97ae8fd272c388cb85e5c7cb7f3188ffb04043db99685612dbcd8b5bf0435",
+    "transactionHash": "0x625cf229d4ff9cfb1ac1342892d9f8d527d7cf15647189803e4f00727fde8732",
+    "logs": [],
+    "blockNumber": 18974450,
+    "cumulativeGasUsed": "462285",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    8,
+    "DAI / USD",
+    100000000
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "df35c591d30290bb642639edcf173800",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"decimals_\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"description_\",\"type\":\"string\"},{\"internalType\":\"int256\",\"name\":\"initialPrice_\",\"type\":\"int256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"int256\",\"name\":\"price\",\"type\":\"int256\"},{\"indexed\":false,\"internalType\":\"uint80\",\"name\":\"round\",\"type\":\"uint80\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"PriceUpdated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"description\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"_roundId\",\"type\":\"uint80\"}],\"name\":\"getRoundData\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"roundId\",\"type\":\"uint80\"},{\"internalType\":\"int256\",\"name\":\"answer\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"startedAt\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"updatedAt\",\"type\":\"uint256\"},{\"internalType\":\"uint80\",\"name\":\"answeredInRound\",\"type\":\"uint80\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"latestRoundData\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"roundId\",\"type\":\"uint80\"},{\"internalType\":\"int256\",\"name\":\"answer\",\"type\":\"int256\"},{\"internalType\":\"uint256\",\"name\":\"startedAt\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"updatedAt\",\"type\":\"uint256\"},{\"internalType\":\"uint80\",\"name\":\"answeredInRound\",\"type\":\"uint80\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"int256\",\"name\":\"newPrice\",\"type\":\"int256\"}],\"name\":\"updatePrice\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Mock Chainlink Price Feed for testing on networks without official Chainlink feeds\",\"kind\":\"dev\",\"methods\":{},\"title\":\"MockPriceFeed\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"This is for testing purposes only - DO NOT USE IN PRODUCTION WARNING: This uses mock Chainlink interfaces - Morph testnet does not have official Chainlink support\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/MockPriceFeed.sol\":\"MockPriceFeed\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/MockAggregatorV3Interface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.19;\\r\\n\\r\\n/**\\r\\n * @title MockAggregatorV3Interface\\r\\n * @dev Mock Chainlink AggregatorV3Interface for testing purposes\\r\\n * @notice This is a mock contract for testing purposes only\\r\\n * WARNING: This is NOT the real AggregatorV3Interface - for testing only\\r\\n */\\r\\ninterface AggregatorV3Interface {\\r\\n    function decimals() external view returns (uint8);\\r\\n    function description() external view returns (string memory);\\r\\n    function version() external view returns (uint256);\\r\\n    \\r\\n    function latestRoundData()\\r\\n        external\\r\\n        view\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        );\\r\\n    \\r\\n    function getRoundData(uint80 _roundId)\\r\\n        external\\r\\n        view\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        );\\r\\n}\\r\\n\",\"keccak256\":\"0x3f77956e475c33958624a472f6dd9376e7eda3e29b7a36a2115314e6c11b0d88\",\"license\":\"MIT\"},\"contracts/MockPriceFeed.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\npragma solidity ^0.8.24;\\r\\n\\r\\nimport \\\"./MockAggregatorV3Interface.sol\\\";\\r\\n\\r\\n/**\\r\\n * @title MockPriceFeed\\r\\n * @dev Mock Chainlink Price Feed for testing on networks without official Chainlink feeds\\r\\n * @notice This is for testing purposes only - DO NOT USE IN PRODUCTION\\r\\n * WARNING: This uses mock Chainlink interfaces - Morph testnet does not have official Chainlink support\\r\\n */\\r\\ncontract MockPriceFeed is AggregatorV3Interface {\\r\\n    uint8 private _decimals;\\r\\n    string private _description;\\r\\n    uint256 private _version;\\r\\n    int256 private _latestPrice;\\r\\n    uint256 private _latestTimestamp;\\r\\n    uint80 private _latestRound;\\r\\n\\r\\n    mapping(uint80 => int256) private _prices;\\r\\n    mapping(uint80 => uint256) private _timestamps;\\r\\n\\r\\n    event PriceUpdated(int256 price, uint80 round, uint256 timestamp);\\r\\n\\r\\n    constructor(\\r\\n        uint8 decimals_,\\r\\n        string memory description_,\\r\\n        int256 initialPrice_\\r\\n    ) {\\r\\n        _decimals = decimals_;\\r\\n        _description = description_;\\r\\n        _version = 1;\\r\\n        _latestPrice = initialPrice_;\\r\\n        _latestTimestamp = block.timestamp;\\r\\n        _latestRound = 1;\\r\\n        \\r\\n        _prices[_latestRound] = _latestPrice;\\r\\n        _timestamps[_latestRound] = _latestTimestamp;\\r\\n    }\\r\\n\\r\\n    function decimals() external view override returns (uint8) {\\r\\n        return _decimals;\\r\\n    }\\r\\n\\r\\n    function description() external view override returns (string memory) {\\r\\n        return _description;\\r\\n    }\\r\\n\\r\\n    function version() external view override returns (uint256) {\\r\\n        return _version;\\r\\n    }\\r\\n\\r\\n    function latestRoundData()\\r\\n        external\\r\\n        view\\r\\n        override\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        )\\r\\n    {\\r\\n        return (\\r\\n            _latestRound,\\r\\n            _latestPrice,\\r\\n            _latestTimestamp,\\r\\n            _latestTimestamp,\\r\\n            _latestRound\\r\\n        );\\r\\n    }\\r\\n\\r\\n    function getRoundData(uint80 _roundId)\\r\\n        external\\r\\n        view\\r\\n        override\\r\\n        returns (\\r\\n            uint80 roundId,\\r\\n            int256 answer,\\r\\n            uint256 startedAt,\\r\\n            uint256 updatedAt,\\r\\n            uint80 answeredInRound\\r\\n        )\\r\\n    {\\r\\n        return (\\r\\n            _roundId,\\r\\n            _prices[_roundId],\\r\\n            _timestamps[_roundId],\\r\\n            _timestamps[_roundId],\\r\\n            _roundId\\r\\n        );\\r\\n    }\\r\\n\\r\\n    // Admin function to update price (for testing)\\r\\n    function updatePrice(int256 newPrice) external {\\r\\n        _latestRound++;\\r\\n        _latestPrice = newPrice;\\r\\n        _latestTimestamp = block.timestamp;\\r\\n        \\r\\n        _prices[_latestRound] = _latestPrice;\\r\\n        _timestamps[_latestRound] = _latestTimestamp;\\r\\n        \\r\\n        emit PriceUpdated(newPrice, _latestRound, _latestTimestamp);\\r\\n    }\\r\\n\\r\\n    // Convenience function to get current price\\r\\n    function getLatestPrice() external view returns (int256) {\\r\\n        return _latestPrice;\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xb4a1ccef9860c84fa0ceae9b5419cc4001e1c5c7e3ecab98ad0839a332f18034\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405161071638038061071683398101604081905261002f916100df565b6000805460ff191660ff8516179055600161004a8382610256565b50600160028190556003829055426004819055600580546001600160501b031916831790556000919091527f3e5fec24aa4dc4e5aee2e025e51e1392c72a2500577559fae9665c6d52bd6a319190915560076020527fb39221ace053465ec3453ce2b36430bd138b997ecea25c1043da0c366812b82855506103159050565b634e487b7160e01b600052604160045260246000fd5b6000806000606084860312156100f457600080fd5b835160ff8116811461010557600080fd5b602085810151919450906001600160401b038082111561012457600080fd5b818701915087601f83011261013857600080fd5b81518181111561014a5761014a6100c9565b604051601f8201601f19908116603f01168101908382118183101715610172576101726100c9565b816040528281528a8684870101111561018a57600080fd5b600093505b828410156101ac578484018601518185018701529285019261018f565b6000868483010152809750505050505050604084015190509250925092565b600181811c908216806101df57607f821691505b6020821081036101ff57634e487b7160e01b600052602260045260246000fd5b50919050565b601f821115610251576000816000526020600020601f850160051c8101602086101561022e5750805b601f850160051c820191505b8181101561024d5782815560010161023a565b5050505b505050565b81516001600160401b0381111561026f5761026f6100c9565b6102838161027d84546101cb565b84610205565b602080601f8311600181146102b857600084156102a05750858301515b600019600386901b1c1916600185901b17855561024d565b600085815260208120601f198616915b828110156102e7578886015182559484019460019091019084016102c8565b50858210156103055787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b6103f2806103246000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c80638e15f4731161005b5780638e15f473146100c35780639a6fc8f5146100cb578063d4c19bda1461013d578063feaf968c1461015257600080fd5b8063313ce5671461008257806354fd4d501461009c5780637284e416146100ae575b600080fd5b60005460405160ff90911681526020015b60405180910390f35b6002545b604051908152602001610093565b6100b661016e565b60405161009391906102b6565b6003546100a0565b6101096100d9366004610305565b6001600160501b038116600090815260066020908152604080832054600790925290912054919290919081908490565b604080516001600160501b03968716815260208101959095528401929092526060830152909116608082015260a001610093565b61015061014b366004610335565b610200565b005b6005546003546004546001600160501b03909216918083610109565b60606001805461017d9061034e565b80601f01602080910402602001604051908101604052809291908181526020018280546101a99061034e565b80156101f65780601f106101cb576101008083540402835291602001916101f6565b820191906000526020600020905b8154815290600101906020018083116101d957829003601f168201915b5050505050905090565b600580546001600160501b031690600061021983610388565b82546101009290920a6001600160501b03818102199093169183160217909155600383905542600490815560058054831660009081526006602090815260408083208890559354835486168352600782529184902082905591548351878152941691840191909152908201527fb6984bf8cf976e6d4cf6771258c1e9ebe943bfb715c27a34b80b6319235e4468915060600160405180910390a150565b60006020808352835180602085015260005b818110156102e4578581018301518582016040015282016102c8565b506000604082860101526040601f19601f8301168501019250505092915050565b60006020828403121561031757600080fd5b81356001600160501b038116811461032e57600080fd5b9392505050565b60006020828403121561034757600080fd5b5035919050565b600181811c9082168061036257607f821691505b60208210810361038257634e487b7160e01b600052602260045260246000fd5b50919050565b60006001600160501b038083168181036103b257634e487b7160e01b600052601160045260246000fd5b600101939250505056fea2646970667358221220ae5c4b8318140b5e4c8ffebd9fb1459203ed5a2563f4d567c1c690ec8b61680f64736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061007d5760003560e01c80638e15f4731161005b5780638e15f473146100c35780639a6fc8f5146100cb578063d4c19bda1461013d578063feaf968c1461015257600080fd5b8063313ce5671461008257806354fd4d501461009c5780637284e416146100ae575b600080fd5b60005460405160ff90911681526020015b60405180910390f35b6002545b604051908152602001610093565b6100b661016e565b60405161009391906102b6565b6003546100a0565b6101096100d9366004610305565b6001600160501b038116600090815260066020908152604080832054600790925290912054919290919081908490565b604080516001600160501b03968716815260208101959095528401929092526060830152909116608082015260a001610093565b61015061014b366004610335565b610200565b005b6005546003546004546001600160501b03909216918083610109565b60606001805461017d9061034e565b80601f01602080910402602001604051908101604052809291908181526020018280546101a99061034e565b80156101f65780601f106101cb576101008083540402835291602001916101f6565b820191906000526020600020905b8154815290600101906020018083116101d957829003601f168201915b5050505050905090565b600580546001600160501b031690600061021983610388565b82546101009290920a6001600160501b03818102199093169183160217909155600383905542600490815560058054831660009081526006602090815260408083208890559354835486168352600782529184902082905591548351878152941691840191909152908201527fb6984bf8cf976e6d4cf6771258c1e9ebe943bfb715c27a34b80b6319235e4468915060600160405180910390a150565b60006020808352835180602085015260005b818110156102e4578581018301518582016040015282016102c8565b506000604082860101526040601f19601f8301168501019250505092915050565b60006020828403121561031757600080fd5b81356001600160501b038116811461032e57600080fd5b9392505050565b60006020828403121561034757600080fd5b5035919050565b600181811c9082168061036257607f821691505b60208210810361038257634e487b7160e01b600052602260045260246000fd5b50919050565b60006001600160501b038083168181036103b257634e487b7160e01b600052601160045260246000fd5b600101939250505056fea2646970667358221220ae5c4b8318140b5e4c8ffebd9fb1459203ed5a2563f4d567c1c690ec8b61680f64736f6c63430008180033",
+  "devdoc": {
+    "details": "Mock Chainlink Price Feed for testing on networks without official Chainlink feeds",
+    "kind": "dev",
+    "methods": {},
+    "title": "MockPriceFeed",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "This is for testing purposes only - DO NOT USE IN PRODUCTION WARNING: This uses mock Chainlink interfaces - Morph testnet does not have official Chainlink support",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2235,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_decimals",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint8"
+      },
+      {
+        "astId": 2237,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_description",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 2239,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_version",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 2241,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_latestPrice",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_int256"
+      },
+      {
+        "astId": 2243,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_latestTimestamp",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 2245,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_latestRound",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_uint80"
+      },
+      {
+        "astId": 2249,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_prices",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_mapping(t_uint80,t_int256)"
+      },
+      {
+        "astId": 2253,
+        "contract": "contracts/MockPriceFeed.sol:MockPriceFeed",
+        "label": "_timestamps",
+        "offset": 0,
+        "slot": "7",
+        "type": "t_mapping(t_uint80,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_int256": {
+        "encoding": "inplace",
+        "label": "int256",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_uint80,t_int256)": {
+        "encoding": "mapping",
+        "key": "t_uint80",
+        "label": "mapping(uint80 => int256)",
+        "numberOfBytes": "32",
+        "value": "t_int256"
+      },
+      "t_mapping(t_uint80,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_uint80",
+        "label": "mapping(uint80 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint8": {
+        "encoding": "inplace",
+        "label": "uint8",
+        "numberOfBytes": "1"
+      },
+      "t_uint80": {
+        "encoding": "inplace",
+        "label": "uint80",
+        "numberOfBytes": "10"
+      }
+    }
+  }
+}

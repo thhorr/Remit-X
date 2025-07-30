@@ -1,0 +1,26 @@
+{
+  "name": "remitx-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js --network morphTestnet",
+    "verify": "hardhat verify --network morphTestnet"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "RemitX - Stablecoin-based Remittance dApp with Chainlink integrations",
+  "dependencies": {
+    "@chainlink/contracts": "^1.2.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "@openzeppelin/contracts-upgradeable": "^5.1.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.0.1",
+    "@nomicfoundation/hardhat-verify": "^2.0.10",
+    "hardhat": "^2.26.1",
+    "hardhat-deploy": "^0.12.5"
+  }
+}
