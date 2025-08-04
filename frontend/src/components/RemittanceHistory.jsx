@@ -1,31 +1,29 @@
 import { useState, useEffect } from 'react';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, usePublicClient } from 'wagmi';
 import { formatUnits } from 'viem';
-import { Clock, CheckCircle, ExternalLink, Trash2, AlertTriangle, Zap, Globe, ArrowUpDown } from 'lucide-react';
+import { Clock, ExternalLink, Trash2, AlertTriangle, Zap, Globe, ArrowUpDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { CONTRACTS } from '../config/contracts';
 import { REMITX_CORE_ABI } from '../config/abis';
 
 const RemittanceHistory = () => {
   const { address, isConnected } = useAccount();
+  const publicClient = usePublicClient();
   const [remittances, setRemittances] = useState([]);
   const [loading, setLoading] = useState(true);
-  // ✅ UPDATED: Changed 'claimed' to 'completed' for direct transfers
-  const [filter, setFilter] = useState('all'); // 'all', 'pending', 'completed', 'failed', 'deleted'
+  const [filter, setFilter] = useState('all');
   const [deletingId, setDeletingId] = useState(null);
 
   // Delete remittance hook
   const { writeContract: deleteRemittance, data: deleteHash, isPending: isDeleting } = useWriteContract();
-  
   const { isLoading: isDeleteConfirming, isSuccess: isDeleteSuccess } = useWaitForTransactionReceipt({
     hash: deleteHash,
   });
 
-  // ✅ ENHANCED: Get both sent and received remittances
-  const { 
-    data: userSentRemittanceIds, 
-    refetch: refetchSentRemittances, 
-    error: getSentRemittancesError,
+  // Fetch user sent and received remittance IDs
+  const {
+    data: userSentRemittanceIds,
+    refetch: refetchSentRemittances,
     isLoading: isLoadingSentIds,
     isError: isGetSentRemittancesError
   } = useReadContract({
@@ -39,11 +37,9 @@ const RemittanceHistory = () => {
     retryDelay: 1000,
   });
 
-  // ✅ NEW: Get remittances received by user (direct transfers)
   const {
     data: userReceivedRemittanceIds,
     refetch: refetchReceivedRemittances,
-    error: getReceivedRemittancesError,
     isLoading: isLoadingReceivedIds,
     isError: isGetReceivedRemittancesError
   } = useReadContract({
@@ -57,52 +53,105 @@ const RemittanceHistory = () => {
     retryDelay: 1000,
   });
 
-  // Individual remittance data hooks - for sent
-  const { data: sentRemittance1Data, isLoading: isLoadingSent1, refetch: refetchSentRemittance1 } = useReadContract({
-    address: CONTRACTS.REMITX_CORE,
-    abi: REMITX_CORE_ABI,
-    functionName: 'getRemittance',
-    args: [userSentRemittanceIds?.[0]],
-    enabled: userSentRemittanceIds?.length > 0,
-    watch: true,
-  });
+  // Dynamically fetch all remittance data for sent and received
+  useEffect(() => {
+    const fetchAllRemittances = async () => {
+      setLoading(true);
 
-  const { data: sentRemittance2Data, isLoading: isLoadingSent2, refetch: refetchSentRemittance2 } = useReadContract({
-    address: CONTRACTS.REMITX_CORE,
-    abi: REMITX_CORE_ABI,
-    functionName: 'getRemittance',
-    args: [userSentRemittanceIds?.[1]],
-    enabled: userSentRemittanceIds?.length > 1,
-    watch: true,
-  });
+      try {
+        if (
+          isLoadingSentIds ||
+          isLoadingReceivedIds ||
+          !userSentRemittanceIds ||
+          !userReceivedRemittanceIds
+        ) {
+          setLoading(true);
+          return;
+        }
 
-  const { data: sentRemittance3Data, isLoading: isLoadingSent3, refetch: refetchSentRemittance3 } = useReadContract({
-    address: CONTRACTS.REMITX_CORE,
-    abi: REMITX_CORE_ABI,
-    functionName: 'getRemittance',
-    args: [userSentRemittanceIds?.[2]],
-    enabled: userSentRemittanceIds?.length > 2,
-    watch: true,
-  });
+        // Fetch all sent and received remittances
+        const sentIds = Array.isArray(userSentRemittanceIds) ? userSentRemittanceIds : [];
+        const receivedIds = Array.isArray(userReceivedRemittanceIds) ? userReceivedRemittanceIds : [];
 
-  // ✅ NEW: Individual remittance data hooks - for received
-  const { data: recvRemittance1Data, isLoading: isLoadingRecv1, refetch: refetchRecvRemittance1 } = useReadContract({
-    address: CONTRACTS.REMITX_CORE,
-    abi: REMITX_CORE_ABI,
-    functionName: 'getRemittance',
-    args: [userReceivedRemittanceIds?.[0]],
-    enabled: userReceivedRemittanceIds?.length > 0,
-    watch: true,
-  });
+        const fetchRemittance = async (id) => {
+          if (!id) return null;
+          try {
+            const result = await publicClient.readContract({
+              address: CONTRACTS.REMITX_CORE,
+              abi: REMITX_CORE_ABI,
+              functionName: 'getRemittance',
+              args: [id],
+              chainId: 2810
+            });
+            return { data: result, id };
+          } catch {
+            return null;
+          }
+        };
 
-  const { data: recvRemittance2Data, isLoading: isLoadingRecv2, refetch: refetchRecvRemittance2 } = useReadContract({
-    address: CONTRACTS.REMITX_CORE,
-    abi: REMITX_CORE_ABI,
-    functionName: 'getRemittance',
-    args: [userReceivedRemittanceIds?.[1]],
-    enabled: userReceivedRemittanceIds?.length > 1,
-    watch: true,
-  });
+        const sentPromises = sentIds.map((id) => fetchRemittance(id));
+        const receivedPromises = receivedIds.map((id) => fetchRemittance(id));
+        const sentResults = await Promise.all(sentPromises);
+        const receivedResults = await Promise.all(receivedPromises);
+
+        const processedRemittances = [];
+
+        sentResults.forEach((item) => {
+          if (item && item.data && item.id) {
+            processedRemittances.push({
+              ...item.data,
+              id: item.id,
+              direction: 'sent',
+              isCompleted: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              isDeleted: item.data.deleted === true || item.data.deleted === 1 || item.data.deleted === 'true' || item.data.deleted === 1n,
+              deleted: item.data.deleted === true || item.data.deleted === 1 || item.data.deleted === 'true' || item.data.deleted === 1n,
+              completed: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              claimed: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              sourceChain: item.data.sourceChain !== undefined && item.data.sourceChain !== null
+                ? String(item.data.sourceChain)
+                : '2810',
+              destinationChain: item.data.destinationChain !== undefined && item.data.destinationChain !== null
+                ? String(item.data.destinationChain)
+                : '',
+              timestamp: typeof item.data.timestamp === 'bigint' ? Number(item.data.timestamp) : item.data.timestamp,
+            });
+          }
+        });
+
+        receivedResults.forEach((item) => {
+          if (item && item.data && item.id) {
+            processedRemittances.push({
+              ...item.data,
+              id: item.id,
+              direction: 'received',
+              isCompleted: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              isDeleted: item.data.deleted === true || item.data.deleted === 1 || item.data.deleted === 'true' || item.data.deleted === 1n,
+              deleted: item.data.deleted === true || item.data.deleted === 1 || item.data.deleted === 'true' || item.data.deleted === 1n,
+              completed: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              claimed: item.data.completed === true || item.data.completed === 1 || item.data.completed === 'true' || item.data.completed === 1n,
+              sourceChain: item.data.sourceChain !== undefined && item.data.sourceChain !== null
+                ? String(item.data.sourceChain)
+                : '2810',
+              destinationChain: item.data.destinationChain !== undefined && item.data.destinationChain !== null
+                ? String(item.data.destinationChain)
+                : '',
+              timestamp: typeof item.data.timestamp === 'bigint' ? Number(item.data.timestamp) : item.data.timestamp,
+            });
+          }
+        });
+
+        processedRemittances.sort((a, b) => b.timestamp - a.timestamp);
+
+        setRemittances(processedRemittances);
+        setLoading(false);
+      } catch (error) {
+        setRemittances([]);
+        setLoading(false);
+      }
+    };
+
+    fetchAllRemittances();
+  }, [userSentRemittanceIds, userReceivedRemittanceIds, isLoadingSentIds, isLoadingReceivedIds, publicClient]);
 
   // Token configuration
   const tokens = {
@@ -122,74 +171,9 @@ const RemittanceHistory = () => {
     '5224473277236331295': { name: 'Optimism Sepolia', icon: '🔴' },
   };
 
-  // ✅ UPDATED: Delete success handler with enhanced status updates
-  useEffect(() => {
-    if (isDeleteSuccess && deleteHash && deletingId) {
-      console.log('✅ Delete transaction confirmed:', deleteHash);
-      console.log('🗑️ Deleted failed direct transfer ID:', deletingId);
-      
-      toast.dismiss();
-      toast.success('Failed transfer deleted and tokens refunded!');
-      
-      // Update state to mark as deleted
-      setRemittances(prevRemittances => {
-        const updated = prevRemittances.map(r => {
-          if (r.id === deletingId) {
-            console.log(`🔄 Marking transfer ${r.id} as deleted`);
-            return {
-              ...r,
-              isDeleted: true,
-              deleted: true,
-            };
-          }
-          return r;
-        });
-        console.log('✅ Updated transfer state to deleted');
-        return updated;
-      });
-      
-      // Force refetch after a delay
-      setTimeout(async () => {
-        try {
-          console.log('🔄 Refetching blockchain data after delete...');
-          await Promise.all([
-            refetchSentRemittances(),
-            refetchReceivedRemittances()
-          ]);
-          
-          // Refetch individual data
-          setTimeout(async () => {
-            try {
-              // Refetch sent remittances
-              if (userSentRemittanceIds?.length > 0) await refetchSentRemittance1?.();
-              if (userSentRemittanceIds?.length > 1) await refetchSentRemittance2?.(); 
-              if (userSentRemittanceIds?.length > 2) await refetchSentRemittance3?.();
-              
-              // Refetch received remittances
-              if (userReceivedRemittanceIds?.length > 0) await refetchRecvRemittance1?.();
-              if (userReceivedRemittanceIds?.length > 1) await refetchRecvRemittance2?.();
-            } catch (error) {
-              console.error('❌ Individual refetch error:', error);
-            }
-          }, 500);
-          
-        } catch (error) {
-          console.error('❌ Refetch error:', error);
-        }
-      }, 2000);
-      
-      setDeletingId(null);
-    }
-  }, [isDeleteSuccess, deleteHash, deletingId, 
-      refetchSentRemittances, refetchReceivedRemittances,
-      refetchSentRemittance1, refetchSentRemittance2, refetchSentRemittance3, 
-      refetchRecvRemittance1, refetchRecvRemittance2,
-      userSentRemittanceIds, userReceivedRemittanceIds]);
-
   // Delete confirmation loading
   useEffect(() => {
     if (isDeleteConfirming && deleteHash) {
-      console.log('⏳ Delete transaction confirming...');
       toast.dismiss();
       toast.loading('Confirming deletion and processing refund...');
     }
@@ -198,299 +182,69 @@ const RemittanceHistory = () => {
   // Force re-render after delete confirmation
   useEffect(() => {
     if (isDeleteSuccess && !isDeleteConfirming && deleteHash) {
-      console.log('🔄 Delete confirmed, forcing data refresh...');
-      
       setTimeout(() => {
         setLoading(true);
-        
-        // Trigger a complete re-fetch cycle for both sent and received
         Promise.all([
           refetchSentRemittances(),
           refetchReceivedRemittances()
         ]).then(() => {
-          console.log('✅ Forced refresh complete');
-        }).catch((error) => {
-          console.error('❌ Forced refresh error:', error);
+          setLoading(false);
+        }).catch(() => {
           setLoading(false);
         });
       }, 1000);
+      setDeletingId(null);
+      toast.dismiss();
+      toast.success('Failed transfer deleted and tokens refunded!');
     }
   }, [isDeleteSuccess, isDeleteConfirming, deleteHash, refetchSentRemittances, refetchReceivedRemittances]);
 
-  // ✅ ENHANCED: Process both sent and received remittance data
-  useEffect(() => {
-    console.log('🔍 Processing remittance data (Direct Transfer Mode)...');
-    console.log('- isConnected:', isConnected);
-    console.log('- address:', address);
-    console.log('- Sent IDs loading:', isLoadingSentIds);
-    console.log('- Received IDs loading:', isLoadingReceivedIds);
-    console.log('- Sent remittance IDs:', userSentRemittanceIds);
-    console.log('- Received remittance IDs:', userReceivedRemittanceIds);
-    
-    // Show loading while fetching IDs
-    if (isLoadingSentIds || isLoadingReceivedIds) {
-      setLoading(true);
-      return;
-    }
-    
-    // Handle error state
-    if (isGetSentRemittancesError && isGetReceivedRemittancesError) {
-      setRemittances([]);
-      setLoading(false);
-      return;
-    }
-    
-    // Handle no IDs found
-    const noSentIds = !userSentRemittanceIds || userSentRemittanceIds.length === 0;
-    const noReceivedIds = !userReceivedRemittanceIds || userReceivedRemittanceIds.length === 0;
-    
-    if (noSentIds && noReceivedIds) {
-      console.log('❌ No direct transfer IDs found');
-      setRemittances([]);
-      setLoading(false);
-      return;
-    }
-
-    // Wait for individual remittance data to load
-    const isStillLoadingSent = 
-      (userSentRemittanceIds?.length > 0 && isLoadingSent1) || 
-      (userSentRemittanceIds?.length > 1 && isLoadingSent2) ||
-      (userSentRemittanceIds?.length > 2 && isLoadingSent3);
-      
-    const isStillLoadingReceived = 
-      (userReceivedRemittanceIds?.length > 0 && isLoadingRecv1) || 
-      (userReceivedRemittanceIds?.length > 1 && isLoadingRecv2);
-      
-    if (isStillLoadingSent || isStillLoadingReceived) {
-      console.log('⏳ Still loading individual remittance data...');
-      setLoading(true);
-      return;
-    }
-
-    const processedRemittances = [];
-
-    // ✅ ENHANCED: Process sent remittance data
-    const sentRemittanceDataArray = [
-      { data: sentRemittance1Data, id: userSentRemittanceIds?.[0] },
-      { data: sentRemittance2Data, id: userSentRemittanceIds?.[1] },
-      { data: sentRemittance3Data, id: userSentRemittanceIds?.[2] },
-    ];
-
-    // ✅ ENHANCED: Process received remittance data
-    const receivedRemittanceDataArray = [
-      { data: recvRemittance1Data, id: userReceivedRemittanceIds?.[0] },
-      { data: recvRemittance2Data, id: userReceivedRemittanceIds?.[1] },
-    ];
-
-    // ✅ DEBUG: Add debug logging to see contract response
-    [...sentRemittanceDataArray, ...receivedRemittanceDataArray].forEach(({ data, id }) => {
-      if (data && id) {
-        console.log(`🔍 RAW CONTRACT DATA for ${id}:`, {
-          hasDeleted: 'deleted' in data,
-          deletedValue: data.deleted,
-          // ✅ CHANGED: From claimed to completed for direct transfers
-          hasCompleted: 'completed' in data,
-          completedValue: data.completed,
-          isCrossChain: data.isCrossChain,
-          ccipMessageId: data.ccipMessageId,
-          allKeys: Object.keys(data)
-        });
-      }
-    });
-
-    // ✅ ENHANCED: Process sent remittances
-    sentRemittanceDataArray.forEach(({ data, id }) => {
-      if (data && id && typeof data === 'object' && data.sender && data.recipient) {
-        console.log(`✅ Processing sent direct transfer ${id}:`, data);
-        
-        // ✅ UPDATED: Use correct field names from contract
-        const isDeleted = Boolean(data.deleted);
-        const isCompleted = Boolean(data.completed); // ✅ CHANGED from claimed to completed
-        const isCrossChain = Boolean(data.isCrossChain);
-        
-        console.log(`🔍 Direct Transfer ${id} states:`, {
-          isDeleted,
-          isCompleted,
-          isCrossChain,
-          rawDeleted: data.deleted,
-          rawCompleted: data.completed,
-          ccipMessageId: data.ccipMessageId?.toString()
-        });
-        
-        const mappedRemittance = {
-          id: id,
-          sender: data.sender,
-          recipient: data.recipient,
-          amount: data.amount,
-          sourceToken: data.sourceToken,
-          targetToken: data.targetToken,
-          destinationChain: data.destinationChain?.toString(),
-          timestamp: Number(data.timestamp),
-          // ✅ CHANGED: Use completed instead of claimed for direct transfers
-          isCompleted: isCompleted,
-          isDeleted: isDeleted,
-          isCrossChain: isCrossChain,
-          ccipFee: data.ccipFee,
-          ccipMessageId: data.ccipMessageId,
-          exchangeRate: data.exchangeRate,
-          sourceChain: '2810',
-          // Direction of transfer
-          direction: 'sent',
-          // Keep these for compatibility
-          deleted: isDeleted,
-          completed: isCompleted, // ✅ CHANGED from claimed to completed
-          claimed: isCompleted,   // For backward compatibility
-        };
-
-        console.log(`✅ Mapped sent direct transfer ${id}:`, mappedRemittance);
-        processedRemittances.push(mappedRemittance);
-      } else if (id) {
-        console.log(`⚠️ Missing or invalid data for sent transfer ${id}:`, data);
-      }
-    });
-    
-    // ✅ NEW: Process received remittances
-    receivedRemittanceDataArray.forEach(({ data, id }) => {
-      if (data && id && typeof data === 'object' && data.sender && data.recipient) {
-        console.log(`✅ Processing received direct transfer ${id}:`, data);
-        
-        const isDeleted = Boolean(data.deleted);
-        const isCompleted = Boolean(data.completed);
-        const isCrossChain = Boolean(data.isCrossChain);
-        
-        const mappedRemittance = {
-          id: id,
-          sender: data.sender,
-          recipient: data.recipient,
-          amount: data.amount,
-          sourceToken: data.sourceToken,
-          targetToken: data.targetToken,
-          destinationChain: data.destinationChain?.toString(),
-          timestamp: Number(data.timestamp),
-          isCompleted: isCompleted,
-          isDeleted: isDeleted,
-          isCrossChain: isCrossChain,
-          ccipFee: data.ccipFee,
-          ccipMessageId: data.ccipMessageId,
-          exchangeRate: data.exchangeRate,
-          sourceChain: '2810',
-          // Direction of transfer
-          direction: 'received',
-          // Keep these for compatibility
-          deleted: isDeleted,
-          completed: isCompleted,
-          claimed: isCompleted,
-        };
-
-        console.log(`✅ Mapped received direct transfer ${id}:`, mappedRemittance);
-        processedRemittances.push(mappedRemittance);
-      } else if (id) {
-        console.log(`⚠️ Missing or invalid data for received transfer ${id}:`, data);
-      }
-    });
-
-    // Sort by timestamp (newest first)
-    processedRemittances.sort((a, b) => b.timestamp - a.timestamp);
-    
-    console.log('✅ Final processed direct transfers:', processedRemittances);
-    
-    // Update state
-    setRemittances(processedRemittances);
-    setLoading(false);
-    
-  }, [isConnected, address, 
-      isLoadingSentIds, isLoadingReceivedIds, 
-      isGetSentRemittancesError, isGetReceivedRemittancesError, 
-      userSentRemittanceIds, userReceivedRemittanceIds, 
-      sentRemittance1Data, sentRemittance2Data, sentRemittance3Data,
-      recvRemittance1Data, recvRemittance2Data,
-      isLoadingSent1, isLoadingSent2, isLoadingSent3,
-      isLoadingRecv1, isLoadingRecv2]);
-
-  // ✅ ENHANCED: Delete handler for failed direct transfers
+  // Delete handler for failed direct transfers
   const handleDeleteRemittance = async (remittanceId) => {
-    console.log('🔄 Starting delete for failed transfer:', remittanceId);
-    
     const remittance = remittances.find(r => r.id === remittanceId);
-    
     if (!remittance) {
       toast.error('Transfer not found');
       return;
     }
-
-    console.log('📋 Transfer data:', remittance);
-
-    // ✅ CHANGED: Check completed instead of claimed
     if (remittance.isCompleted || remittance.completed) {
       toast.error('Cannot delete completed transfer');
       return;
     }
-
     if (remittance.isDeleted || remittance.deleted) {
       toast.error('Transfer already deleted');
       return;
     }
-
-    // Check ownership
     if (remittance.sender.toLowerCase() !== address.toLowerCase()) {
       toast.error('You can only delete your own failed transfers');
       return;
     }
-
     const tokenInfo = tokens[remittance.sourceToken] || { symbol: 'Unknown', decimals: 18 };
     const formattedAmount = formatUnits(remittance.amount, tokenInfo.decimals);
-
-    // ✅ UPDATED: Show enhanced confirmation dialog for direct transfer deletion
     const confirmed = window.confirm(
       `Delete this failed direct transfer?\n\n` +
       `Amount: ${formattedAmount} ${tokenInfo.symbol}\n` +
       `Recipient: ${remittance.recipient}\n\n` +
       `This will refund your tokens and any CCIP fees.`
     );
-
     if (!confirmed) return;
-
     try {
       setDeletingId(remittanceId);
       toast.loading('Preparing delete transaction...');
-
-      console.log('🔄 Calling deleteRemittance with:', {
-        address: CONTRACTS.REMITX_CORE,
-        functionName: 'deleteRemittance',
-        args: [remittanceId],
-      });
-
-      // Add gas estimation and better configuration
-      const result = await deleteRemittance({
+      await deleteRemittance({
         address: CONTRACTS.REMITX_CORE,
         abi: REMITX_CORE_ABI,
         functionName: 'deleteRemittance',
         args: [remittanceId],
-        gas: 500000n, // 500k gas limit
-        gasPrice: undefined, // Let wallet estimate
-        value: 0n, // Explicitly set value to 0
+        gas: 500000n,
+        gasPrice: undefined,
+        value: 0n,
       });
-
-      console.log('✅ Delete transaction sent, result:', result);
       toast.dismiss();
       toast.loading('Delete transaction submitted...');
-
     } catch (error) {
       toast.dismiss();
       setDeletingId(null);
-      
-      console.error('❌ Delete error:', error);
-      console.error('Error details:', {
-        message: error.message,
-        shortMessage: error.shortMessage,
-        code: error.code,
-        data: error.data,
-        cause: error.cause,
-      });
-
-      // ✅ UPDATED: Error messages for direct transfer deletions
       let errorMessage = 'Failed to delete transfer';
-      
       if (error.shortMessage) {
         errorMessage = error.shortMessage;
       } else if (error.message?.includes('user rejected')) {
@@ -514,44 +268,36 @@ const RemittanceHistory = () => {
       } else if (error.message?.includes('already completed')) {
         errorMessage = 'Cannot delete completed transfer';
       }
-      
       toast.error(errorMessage);
     }
   };
 
-  // ✅ UPDATED: Filter remittances for direct transfers
+  // Filter remittances for direct transfers
   const filteredRemittances = remittances.filter(remittance => {
-    // ✅ CHANGED: Pending = !completed && !deleted (failed transfers)
     const isPending = !remittance.isCompleted && !remittance.completed && !remittance.isDeleted && !remittance.deleted;
     const isCompleted = remittance.isCompleted || remittance.completed;
     const isDeleted = remittance.isDeleted || remittance.deleted;
-    
-    // ✅ NEW: Filter for received transfers
     const isReceived = remittance.direction === 'received';
-    // ✅ NEW: Filter for sent transfers
     const isSent = remittance.direction === 'sent';
-    // ✅ NEW: Filter for failed transfers that can be deleted (not completed, not deleted)
     const isFailed = !remittance.isCompleted && !remittance.completed && !remittance.isDeleted && !remittance.deleted;
-    
     switch (filter) {
       case 'pending':
         return isPending;
-      case 'completed': // ✅ CHANGED: from claimed to completed
+      case 'completed':
         return isCompleted;
       case 'deleted':
         return isDeleted;
-      case 'sent': // ✅ NEW: Filter for sent transfers
+      case 'sent':
         return isSent;
-      case 'received': // ✅ NEW: Filter for received transfers
+      case 'received':
         return isReceived;
-      case 'failed': // ✅ NEW: Filter for failed transfers
+      case 'failed':
         return isFailed;
       default:
         return true;
     }
   });
 
-  // ✅ UPDATED: Helper functions for direct transfers
   const getStatusInfo = (remittance) => {
     if (remittance.isDeleted || remittance.deleted) {
       return {
@@ -560,10 +306,7 @@ const RemittanceHistory = () => {
         className: 'bg-gray-100 text-gray-700 border-gray-300'
       };
     }
-    
-    // ✅ CHANGED: Check for completed instead of claimed
     if (remittance.isCompleted || remittance.completed) {
-      // ✅ ENHANCED: Show different status for cross-chain vs same-chain
       if (remittance.isCrossChain) {
         return {
           label: 'Delivered (Cross-Chain)',
@@ -578,8 +321,6 @@ const RemittanceHistory = () => {
         };
       }
     }
-    
-    // Pending means failed direct transfer
     return {
       label: 'Failed',
       icon: <AlertTriangle className="w-4 h-4" />,
@@ -600,7 +341,9 @@ const RemittanceHistory = () => {
   };
 
   const getChainInfo = (chainId) => {
-    return chains[chainId] || { name: 'Unknown Chain', icon: '❓' };
+    if (!chainId) return { name: 'Unknown Chain', icon: '❓' };
+    const key = typeof chainId === 'bigint' ? chainId.toString() : String(chainId);
+    return chains[key] || { name: 'Unknown Chain', icon: '❓' };
   };
 
   // Not connected state
@@ -636,7 +379,7 @@ const RemittanceHistory = () => {
       <div className="mb-6">
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8">
-          {[
+            {[
               {
                 id: 'all',
                 label: 'All Transfers',
@@ -654,14 +397,14 @@ const RemittanceHistory = () => {
               },
               {
                 id: 'completed',
-                label: 'Delivered', // ✅ CHANGED: from 'Claimed' to 'Delivered'
+                label: 'Delivered',
                 count: remittances.filter(r => r.isCompleted || r.completed).length
               },
               {
                 id: 'failed',
                 label: 'Failed',
-                count: remittances.filter(r => 
-                  !(r.isCompleted || r.completed) && 
+                count: remittances.filter(r =>
+                  !(r.isCompleted || r.completed) &&
                   !(r.isDeleted || r.deleted)
                 ).length
               },
@@ -674,16 +417,14 @@ const RemittanceHistory = () => {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id)}
-                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  filter === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${filter === tab.id
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
               >
                 {tab.label}
-                <span className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
-                  filter === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
-                }`}>
+                <span className={`ml-2 py-0.5 px-2 rounded-full text-xs ${filter === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
+                  }`}>
                   {tab.count}
                 </span>
               </button>
@@ -707,7 +448,7 @@ const RemittanceHistory = () => {
             {filter === 'all' ? 'No Transfers Found' : `No ${filter} transfers`}
           </h3>
           <p className="text-gray-500">
-            {filter === 'all' 
+            {filter === 'all'
               ? 'You haven\'t created any transfers yet'
               : filter === 'received'
                 ? 'You haven\'t received any direct transfers yet'
@@ -727,7 +468,7 @@ const RemittanceHistory = () => {
             const targetToken = getTokenInfo(remittance.targetToken);
             const sourceChain = getChainInfo(remittance.sourceChain);
             const destChain = getChainInfo(remittance.destinationChain);
-            
+
             // ✅ NEW: Determine if this is a direct transfer
             const isDirectTransfer = remittance.isCompleted || remittance.completed;
             const isCrossChainTransfer = remittance.isCrossChain;
@@ -743,41 +484,41 @@ const RemittanceHistory = () => {
                         {status.icon}
                         <span className="ml-1">{status.label}</span>
                       </div>
-                      
+
                       {/* Direction Badge */}
                       <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border
-                        ${remittance.direction === 'sent' 
-                          ? 'bg-blue-50 text-blue-700 border-blue-200' 
+                        ${remittance.direction === 'sent'
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
                           : 'bg-green-50 text-green-700 border-green-200'}`}>
                         {remittance.direction === 'sent' ? 'Outgoing' : 'Incoming'}
                       </div>
                     </div>
-                    
+
                     {/* Actions */}
                     <div className="flex items-center space-x-3">
                       {/* ✅ UPDATED: Delete Button - Only show for failed transfers created by user */}
-                      {!(remittance.isCompleted || remittance.completed) && 
-                       !(remittance.isDeleted || remittance.deleted) && 
-                       remittance.sender && remittance.sender.toLowerCase() === address.toLowerCase() && (
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleDeleteRemittance(remittance.id);
-                          }}
-                          disabled={isDeleting || deletingId === remittance.id}
-                          className="inline-flex items-center px-3 py-1.5 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                          title="Delete failed transfer and get refund"
-                        >
-                          {deletingId === remittance.id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
-                          ) : (
-                            <Trash2 className="w-4 h-4" />
-                          )}
-                          <span className="ml-1">
-                            {deletingId === remittance.id ? 'Deleting...' : 'Delete & Refund'}
-                          </span>
-                        </button>
-                      )}
+                      {!(remittance.isCompleted || remittance.completed) &&
+                        !(remittance.isDeleted || remittance.deleted) &&
+                        remittance.sender && remittance.sender.toLowerCase() === address.toLowerCase() && (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleDeleteRemittance(remittance.id);
+                            }}
+                            disabled={isDeleting || deletingId === remittance.id}
+                            className="inline-flex items-center px-3 py-1.5 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            title="Delete failed transfer and get refund"
+                          >
+                            {deletingId === remittance.id ? (
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
+                            <span className="ml-1">
+                              {deletingId === remittance.id ? 'Deleting...' : 'Delete & Refund'}
+                            </span>
+                          </button>
+                        )}
 
                       {/* View in Explorer */}
                       <a
@@ -815,7 +556,7 @@ const RemittanceHistory = () => {
                         {remittance.direction === 'received' ? 'From' : 'To'}
                       </p>
                       <p className="text-sm font-mono text-gray-900">
-                        {remittance.direction === 'received' 
+                        {remittance.direction === 'received'
                           ? truncateAddress(remittance.sender)
                           : truncateAddress(remittance.recipient)
                         }
@@ -874,16 +615,16 @@ const RemittanceHistory = () => {
                   )}
 
                   {/* ✅ UPDATED: Delete warning for failed direct transfers */}
-                  {!(remittance.isCompleted || remittance.completed) && 
-                   !(remittance.isDeleted || remittance.deleted) && 
-                   remittance.sender && remittance.sender.toLowerCase() === address.toLowerCase() && (
-                    <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
-                      <div className="flex items-center">
-                        <AlertTriangle className="w-3 h-3 mr-1" />
-                        <span>This direct transfer failed. Delete it to get your tokens refunded.</span>
+                  {!(remittance.isCompleted || remittance.completed) &&
+                    !(remittance.isDeleted || remittance.deleted) &&
+                    remittance.sender && remittance.sender.toLowerCase() === address.toLowerCase() && (
+                      <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+                        <div className="flex items-center">
+                          <AlertTriangle className="w-3 h-3 mr-1" />
+                          <span>This direct transfer failed. Delete it to get your tokens refunded.</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   {/* ✅ UPDATED: Deleted status info */}
                   {(remittance.isDeleted || remittance.deleted) && (
